@@ -1,0 +1,2408 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#07070c">
+<title>سکوتِ عددها — گالری الگوها</title>
+<meta name="description" content="۲۷ طرح ریاضیِ زنده — فراکتال، جاذب، موج و هندسه.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%23d9a441'%3E%CF%86%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;700;900&family=Gulzar&family=JetBrains+Mono:wght@300;400;500&display=swap">
+<noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;700;900&family=Gulzar&family=JetBrains+Mono:wght@300;400;500&display=swap">
+</noscript>
+<style>
+:root{
+  --bg:#07070c; --bg-2:#0d0d15; --bg-3:#14141e;
+  --ink:#f4efe5; --ink-2:#c8c2b6; --ink-3:#8a8479; --ink-4:#4d483f;
+  --gold:#d9a441; --gold-2:#f0c674; --gold-3:#8b6a2a;
+  --gold-glow:rgba(217,164,65,.16); --gold-soft:rgba(217,164,65,.35);
+  --sky:#7eb8d4; --rose:#c9899e; --sage:#9dba9d;
+  --line:rgba(244,239,229,.07); --line-2:rgba(244,239,229,.13);
+  --sans:'Vazirmatn',system-ui,-apple-system,Tahoma,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --nastaliq:'Gulzar','Vazirmatn',serif;
+  --maxw:700px; --ease:cubic-bezier(.22,.61,.36,1); --ease-out:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{
+  scroll-behavior:smooth; scroll-padding-top:80px;
+  -webkit-text-size-adjust:100%;
+  overflow-x:clip;                /* ← اصلاح قفل اسکرول */
+}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-weight:300; font-size:16px; line-height:1.95;
+  overflow-x:clip;                /* ← اصلاح قفل اسکرول */
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+@supports not (overflow:clip){
+  html,body{overflow-x:hidden}
+}
+::selection{background:rgba(217,164,65,.3);color:#fff}
+img,svg,canvas{display:block;max-width:100%}
+button{font-family:inherit;color:inherit}
+
+/* لودر */
+.loader{
+  position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:grid;place-items:center;
+  transition:opacity .9s var(--ease),visibility .9s;
+}
+.loader.done{opacity:0;visibility:hidden}
+.loader-phi{
+  font-family:var(--mono);font-size:3.4rem;color:var(--gold);
+  animation:loaderPulse 1.6s ease-in-out infinite;
+  text-shadow:0 0 40px var(--gold-soft);
+}
+@keyframes loaderPulse{0%,100%{opacity:.35;transform:scale(.94)}50%{opacity:1;transform:scale(1)}}
+
+/* بافت */
+.grain{
+  position:fixed;inset:-50%;z-index:900;pointer-events:none;opacity:.028;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grainShift 7s steps(6) infinite;
+}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}17%{transform:translate(-3%,-2%)}
+  33%{transform:translate(2%,3%)}50%{transform:translate(-2%,2%)}
+  67%{transform:translate(3%,-1%)}84%{transform:translate(-1%,-3%)}100%{transform:translate(0,0)}
+}
+
+/* پیشرفت */
+.progress{
+  position:fixed;top:0;right:0;z-index:950;height:2px;width:0;
+  background:linear-gradient(270deg,transparent,var(--gold));
+  box-shadow:0 0 14px var(--gold-soft);will-change:width;
+}
+
+/* نوار بالا */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;gap:10px;
+  padding:calc(14px + env(safe-area-inset-top)) 22px 14px;
+  font-size:.76rem;color:var(--ink-3);pointer-events:none;opacity:0;
+  transform:translateY(-10px);transition:opacity .7s var(--ease),transform .7s var(--ease);
+}
+.topbar.show{opacity:1;transform:none}
+.topbar .mark{font-family:var(--mono);color:var(--gold);font-size:1.05rem;line-height:1;text-shadow:0 0 20px var(--gold-soft)}
+.topbar .title{letter-spacing:.02em}
+
+/* نوار ناوبری */
+.nav-dots{
+  position:fixed;bottom:calc(14px + env(safe-area-inset-bottom));left:50%;
+  transform:translateX(-50%);z-index:850;
+  display:flex;align-items:center;gap:6px;padding:7px 12px;
+  background:rgba(13,13,21,.72);
+  backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);
+  border:1px solid var(--line-2);border-radius:999px;
+  box-shadow:0 10px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);
+  opacity:0;transform:translateX(-50%) translateY(20px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease);pointer-events:none;
+}
+.nav-dots.show{opacity:1;transform:translateX(-50%);pointer-events:auto}
+.nav-dots a{
+  width:8px;height:8px;border-radius:999px;background:rgba(244,239,229,.22);
+  transition:width .45s var(--ease),background .45s var(--ease);flex:none;position:relative;
+}
+.nav-dots a::after{content:'';position:absolute;inset:-14px}
+.nav-dots a.active{width:26px;background:var(--gold);box-shadow:0 0 16px var(--gold-soft)}
+
+/* قهرمان */
+.hero{
+  position:relative;min-height:100vh;min-height:100dvh;
+  display:grid;place-items:center;overflow:hidden;isolation:isolate;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+#flow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+#walker{position:absolute;left:0;right:0;bottom:0;width:100%;height:42%;pointer-events:none;z-index:1}
+.hero::after{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% 46%,
+    rgba(7,7,12,0) 0%,rgba(7,7,12,.36) 50%,rgba(7,7,12,.88) 82%,var(--bg) 100%);
+}
+.hero-inner{position:relative;z-index:3;text-align:center;padding:0 22px;max-width:900px}
+.hero-eyebrow{
+  margin:0 0 16px;font-size:clamp(.72rem,2.6vw,.82rem);font-weight:400;
+  letter-spacing:.18em;color:var(--gold);opacity:0;
+  animation:rise 1.2s var(--ease-out) .3s forwards;
+}
+.hero-title{
+  margin:0;font-size:clamp(3rem,15vw,8rem);font-weight:900;line-height:1.08;
+  letter-spacing:-.01em;
+  background:linear-gradient(178deg,#fff 0%,#f3e6c8 36%,#c99f52 78%,#8a6a2c 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 90px rgba(217,164,65,.16);
+}
+.hero-title .line{display:block;overflow:hidden;padding:0 .08em}
+.hero-title .word{display:inline-block;transform:translateY(115%);animation:maskRise 1.5s var(--ease-out) forwards}
+.hero-title .line:nth-child(1) .word{animation-delay:.55s}
+.hero-title .line:nth-child(2) .word{animation-delay:.75s}
+@keyframes maskRise{from{transform:translateY(115%)}to{transform:translateY(0)}}
+.hero-lede{
+  margin:24px auto 0;max-width:42ch;
+  font-size:clamp(.94rem,2.4vw,1.1rem);line-height:2.1;color:var(--ink-2);
+  opacity:0;animation:rise 1.4s var(--ease-out) 1.05s forwards;
+}
+@keyframes rise{from{opacity:0;transform:translateY(30px);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+.scroll-hint{
+  position:absolute;bottom:calc(26px + env(safe-area-inset-bottom));left:50%;z-index:4;
+  transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;
+  background:none;border:0;padding:10px;color:var(--ink-3);
+  font-family:var(--sans);font-size:.7rem;letter-spacing:.12em;cursor:pointer;
+  opacity:0;animation:rise 1.2s var(--ease-out) 1.5s forwards;transition:color .4s var(--ease);
+}
+.scroll-hint:active{color:var(--gold)}
+.scroll-hint .bar{
+  width:1px;height:44px;
+  background:linear-gradient(180deg,var(--gold),rgba(217,164,65,0));
+  transform-origin:top;animation:beam 2.6s ease-in-out infinite;
+}
+@keyframes beam{0%,100%{transform:scaleY(.32);opacity:.3}50%{transform:scaleY(1);opacity:1}}
+
+/* بلوک‌ها */
+.block{position:relative;max-width:var(--maxw);margin:0 auto;padding:clamp(80px,13vh,150px) 22px}
+.block.wide{max-width:920px}
+.eyebrow{
+  display:flex;align-items:center;gap:12px;margin:0 0 22px;
+  font-family:var(--mono);font-size:.72rem;font-weight:400;letter-spacing:.14em;
+  color:var(--accent,var(--gold));direction:ltr;
+}
+.eyebrow span{direction:ltr}
+.eyebrow i{flex:none;width:30px;height:1px;background:currentColor;opacity:.4}
+h2{margin:0 0 22px;font-size:clamp(1.75rem,5.6vw,2.85rem);font-weight:700;line-height:1.45;color:#fff}
+.block p{margin:0 0 20px;font-size:clamp(1rem,2.15vw,1.08rem);line-height:2.12;color:var(--ink-2)}
+.block p strong{color:var(--ink);font-weight:500}
+.block p em{font-style:normal;color:var(--accent,var(--gold));font-weight:400}
+#intro{--accent:var(--ink)}
+#intro p{font-weight:200}
+#phi{--accent:var(--gold)} #fib{--accent:#e0a04e}
+#fractal{--accent:var(--sage)} #infinity{--accent:var(--sky)}
+#gallery{--accent:var(--gold)}
+.rule{height:1px;max-width:var(--maxw);margin:0 auto;
+  background:linear-gradient(90deg,transparent,var(--line) 22%,var(--line) 78%,transparent);}
+.reveal{opacity:0;transform:translateY(26px);
+  transition:opacity 1s var(--ease-out) var(--d,0s),transform 1s var(--ease-out) var(--d,0s);}
+.reveal.in{opacity:1;transform:none}
+
+/* φ */
+.phi-display{
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 18px;
+  margin:36px 0 6px;padding:24px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.phi-sym{font-family:var(--mono);font-size:clamp(3.2rem,12vw,5.2rem);line-height:.9;color:var(--gold);text-shadow:0 0 50px var(--gold-glow)}
+.phi-val{font-family:var(--mono);font-size:clamp(.9rem,3.4vw,1.4rem);letter-spacing:.05em;color:var(--ink);direction:ltr;unicode-bidi:embed}
+
+/* مارپیچ */
+.spiral-wrap{margin:48px auto 0;max-width:520px;position:relative}
+.spiral-wrap::before{content:'';position:absolute;inset:-16% -8%;
+  background:radial-gradient(circle at 45% 45%,var(--gold-glow),transparent 62%);
+  pointer-events:none;filter:blur(14px)}
+.spiral-wrap svg{position:relative;width:100%;height:auto;overflow:visible}
+.spiral-sq{fill:rgba(217,164,65,.022);stroke:rgba(244,239,229,.1);stroke-width:.0022;
+  transition:fill .9s var(--ease),stroke .9s var(--ease)}
+.spiral-sq.lit{fill:rgba(217,164,65,.055);stroke:rgba(217,164,65,.3)}
+.spiral-path{fill:none;stroke:var(--gold);stroke-width:.0065;stroke-linecap:round;
+  filter:drop-shadow(0 0 6px rgba(217,164,65,.4))}
+
+/* فریم‌های بوم اصلی */
+.canvas-frame{
+  position:relative;margin:44px auto 0;border:1px solid var(--line);border-radius:16px;
+  overflow:hidden;width:100%;
+  background:radial-gradient(ellipse at 50% 100%,rgba(217,164,65,.04),transparent 62%),
+             linear-gradient(180deg,rgba(255,255,255,.012),transparent);
+}
+.canvas-frame::after{content:'';position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 70px rgba(0,0,0,.55);border-radius:16px}
+.canvas-frame canvas{width:100%;height:100%;display:block}
+.frame-tree{max-width:520px;aspect-ratio:1/.9}
+.frame-fern{max-width:440px;aspect-ratio:1/1.05}
+.frame-pend{max-width:560px;aspect-ratio:1/.62}
+.frame-flower{max-width:480px;aspect-ratio:1/1}
+.frame-harm{max-width:560px;aspect-ratio:1/1}
+.spiral-caption{margin-top:18px;text-align:center;font-family:var(--mono);
+  font-size:.7rem;letter-spacing:.14em;color:var(--ink-3)}
+
+/* فیبوناچی */
+.fib-seq{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 10px}
+.fib-seq span{
+  font-family:var(--mono);font-size:.9rem;font-weight:400;padding:7px 14px;
+  border:1px solid var(--line);border-radius:999px;color:var(--ink-3);direction:ltr;
+  transition:color .7s var(--ease),border-color .7s var(--ease),
+             background .7s var(--ease),box-shadow .7s var(--ease),transform .7s var(--ease);
+}
+.fib-seq span.on{
+  color:var(--gold);border-color:var(--gold-soft);background:rgba(217,164,65,.05);
+  box-shadow:0 0 26px -8px var(--gold-soft);transform:translateY(-2px);
+}
+.converge{margin:40px 0 0;padding:24px 18px 16px;border:1px solid var(--line);border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.012),transparent)}
+.converge svg{width:100%;height:auto;overflow:visible}
+.converge-title{margin:0 0 16px;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--ink-3)}
+.cv-dot{fill:var(--ink-3);opacity:0;transition:opacity .9s var(--ease) var(--d,0s),fill .9s var(--ease) var(--d,0s)}
+.cv-dot.on{opacity:1;fill:var(--gold)}
+.cv-line{stroke:var(--gold);stroke-width:.9;stroke-dasharray:3 4;opacity:0;transition:opacity 1.4s var(--ease) .5s}
+.cv-line.on{opacity:.65}
+.cv-label{fill:var(--gold);font-family:var(--mono);font-size:4.2px;direction:ltr;opacity:0;transition:opacity 1.2s var(--ease) .8s}
+.cv-label.on{opacity:1}
+.cv-axis{stroke:rgba(244,239,229,.13);stroke-width:.7}
+.cv-tick{fill:var(--ink-3);font-family:var(--mono);font-size:3.4px;direction:ltr}
+
+/* ══════════════════════════════════════════
+   گالری — ۲۷ طرح
+   ══════════════════════════════════════════ */
+.gallery-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:40px 0 0;
+}
+@media (min-width:640px){.gallery-grid{grid-template-columns:repeat(3,1fr);gap:12px}}
+@media (min-width:900px){.gallery-grid{grid-template-columns:repeat(4,1fr)}}
+.card{
+  position:relative;margin:0;border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;background:var(--bg-2);aspect-ratio:1/1;
+  display:flex;flex-direction:column;
+  transition:border-color .5s var(--ease),transform .5s var(--ease),box-shadow .5s var(--ease);
+  opacity:0;transform:translateY(22px);
+}
+.card.in{opacity:1;transform:none}
+.card:active{border-color:var(--gold-soft);box-shadow:0 0 30px -10px var(--gold-soft)}
+.card-canvas{flex:1;position:relative;overflow:hidden;background:var(--bg)}
+.card-canvas canvas{width:100%;height:100%;display:block}
+.card figcaption{
+  position:absolute;bottom:0;left:0;right:0;padding:9px 10px;
+  font-size:.66rem;color:var(--ink-3);text-align:center;
+  font-family:var(--mono);letter-spacing:.04em;
+  background:linear-gradient(0deg,rgba(7,7,12,.94),rgba(7,7,12,.7) 60%,transparent);
+  pointer-events:none;
+}
+.card figcaption .n{
+  color:var(--gold);font-weight:500;margin-left:4px;
+  text-shadow:0 0 12px var(--gold-soft);
+}
+.gallery-note{
+  margin:26px 0 0;padding:14px 16px;border:1px dashed var(--line-2);border-radius:12px;
+  font-size:.8rem;color:var(--ink-3);text-align:center;font-family:var(--mono);
+  letter-spacing:.05em;
+}
+
+/* پایان */
+.closing{
+  max-width:var(--maxw);margin:0 auto;
+  padding:clamp(90px,15vh,170px) 22px clamp(60px,10vh,90px);text-align:center;
+}
+.closing .quote{
+  font-family:var(--nastaliq);font-size:clamp(1.35rem,4.4vw,2.05rem);
+  font-weight:400;line-height:2.7;color:var(--ink);margin:0 auto;max-width:22ch;
+  direction:rtl;text-shadow:0 0 60px rgba(217,164,65,.08);
+}
+.closing .quote .accent{color:var(--gold)}
+footer{
+  border-top:1px solid var(--line);
+  padding:26px 22px calc(100px + env(safe-area-inset-bottom));
+  text-align:center;font-family:var(--mono);font-size:.68rem;
+  letter-spacing:.14em;color:var(--ink-4);
+}
+footer .phi{color:var(--gold);font-size:1.05rem;display:block;margin-bottom:12px;text-shadow:0 0 22px var(--gold-soft)}
+
+@media (max-width:600px){
+  .topbar{padding:calc(12px + env(safe-area-inset-top)) 18px 12px}
+  .block{padding-left:20px;padding-right:20px}
+  .closing .quote{max-width:18ch}
+}
+@media (min-width:900px){
+  .nav-dots{top:50%;bottom:auto;left:auto;right:26px;
+    transform:translateY(-50%);flex-direction:column;padding:14px 10px}
+  .nav-dots.show{transform:translateY(-50%)}
+  .nav-dots a.active{width:8px;height:26px}
+  footer{padding-bottom:40px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .reveal,.card{opacity:1;transform:none}
+  .hero-eyebrow,.hero-lede,.scroll-hint{opacity:1;animation:none}
+  .hero-title .word{transform:none;animation:none}
+  .grain,.loader-phi{animation:none}
+  .loader{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true"><span class="loader-phi">φ</span></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="topbar" id="topbar" aria-hidden="true">
+  <span class="mark">φ</span><span class="title">سکوتِ عددها</span>
+</header>
+
+<nav class="nav-dots" id="navDots" aria-label="فهرست بخش‌ها">
+  <a href="#hero" data-target="hero" class="active" aria-label="خانه"></a>
+  <a href="#intro" data-target="intro" aria-label="آغاز"></a>
+  <a href="#phi" data-target="phi" aria-label="نسبت طلایی"></a>
+  <a href="#fib" data-target="fib" aria-label="فیبوناچی"></a>
+  <a href="#fractal" data-target="fractal" aria-label="فراکتال"></a>
+  <a href="#gallery" data-target="gallery" aria-label="گالری"></a>
+  <a href="#infinity" data-target="infinity" aria-label="بی‌نهایت"></a>
+</nav>
+
+<main>
+
+<section class="hero" id="hero">
+  <canvas id="flow" aria-hidden="true"></canvas>
+  <canvas id="walker" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">در جست‌وجوی نظمی پنهان</p>
+    <h1 class="hero-title">
+      <span class="line"><span class="word">سکوتِ</span></span>
+      <span class="line"><span class="word">عددها</span></span>
+    </h1>
+    <p class="hero-lede">طبیعت با ریاضیات حرف می‌زند؛ از مارپیچ کهکشان‌ها تا رگبرگ یک برگ. اینجا سفری کوتاه است در زبان مشترکی که قرن‌هاست می‌آموزیم بخوانیم.</p>
+  </div>
+  <button class="scroll-hint" id="scrollHint" type="button" aria-label="رفتن به بخش بعد">
+    <span>کمی پایین‌تر</span><span class="bar" aria-hidden="true"></span>
+  </button>
+</section>
+
+<section class="block" id="intro">
+  <p class="eyebrow"><span>۰۰</span><i></i>آغاز</p>
+  <h2 class="reveal">نظم، پیش از نام‌ها</h2>
+  <p class="reveal" style="--d:.08s">انسان عدد را اختراع نکرد؛ آن را <strong>دید</strong>. هزاران سال پیش از آنکه خطی برای نوشتن داشته باشیم، الگوها را در آسمان می‌شمردیم و در دانه‌های گل آفتابگردان. ریاضیات، شرحِ دیرهنگامِ چیزی است که همیشه آن‌جا بود.</p>
+  <p class="reveal" style="--d:.16s">هر جا نظمی هست، جایی هم برای عدد هست. و هر جا عددی هست، پرسشی هست: <em>چرا این‌گونه؟</em></p>
+</section>
+
+<div class="rule" aria-hidden="true"></div>
+
+<section class="block wide" id="phi">
+  <p class="eyebrow"><span>۰۱</span><i></i>نسبت طلایی</p>
+  <h2 class="reveal">تقسیمی که زیبایی را تعریف می‌کند</h2>
+  <p class="reveal" style="--d:.08s">پاره‌خطی را در نظر بگیرید. آن را چنان به دو بخش تقسیم کنید که نسبتِ کل به بخش بزرگ‌تر، با نسبتِ بخش بزرگ‌تر به بخش کوچک‌تر برابر باشد. این کار تنها یک جواب دارد:</p>
+  <div class="phi-display reveal" style="--d:.16s">
+    <span class="phi-sym">φ</span>
+    <span class="phi-val">1.618033988749895…</span>
+  </div>
+  <p class="reveal" style="--d:.22s">این عدد را <strong>فی</strong> می‌نامیم. در نسبتِ مارپیچ صدف‌ها، در چیدمان دانه‌های آفتابگردان، در تناسبِ بناهایی که هزاران سال پیش ساخته شده‌اند — همه‌جا حاضر است. شاید نه به این دلیل که کسی عمداً آن را به کار برده، بلکه به این دلیل که <em>چشم انسان ناخودآگاه آن را می‌شناسد</em>.</p>
+
+  <div class="spiral-wrap reveal" style="--d:.1s">
+    <svg id="spiralSvg" viewBox="0 0 1 1" role="img" aria-label="مارپیچ طلایی"></svg>
+  </div>
+  <p class="spiral-caption reveal" style="--d:.2s">مارپیچ طلایی — هر چرخش، φ برابر دورتر</p>
+
+  <p class="reveal" style="--d:.1s;margin-top:56px">اما شگفت‌انگیزترین نمودِ آن، در گل‌هاست. دانه‌های آفتابگردان با زاویه‌ای طلایی می‌نشینند — نه کنار هم، نه روی هم — و همین قانون ساده، الگویی می‌سازد که هزاران سال است ریاضیدانان را مسحور خود کرده.</p>
+
+  <div class="canvas-frame frame-flower reveal" style="--d:.14s">
+    <canvas id="flower" aria-label="گل فیبوناچی"></canvas>
+  </div>
+  <p class="spiral-caption reveal" style="--d:.2s">فیلوتاکسی — زاویهٔ طلایی، ۱۳۷.۵ درجه</p>
+</section>
+
+<div class="rule" aria-hidden="true"></div>
+
+<section class="block wide" id="fib">
+  <p class="eyebrow"><span>۰۲</span><i></i>دنبالهٔ فیبوناچی</p>
+  <h2 class="reveal">هر عدد، حاصل جمع دو عدد پیش از خودش</h2>
+  <p class="reveal" style="--d:.08s">از یک و یک شروع می‌کنیم و تا هر کجا که بخواهیم پیش می‌رویم. ساده‌ترین قاعده‌ی جهان، و درست همین سادگی است که شگفتی می‌سازد.</p>
+  <div class="fib-seq" id="fibSeq" aria-label="دنبالهٔ فیبوناچی"></div>
+  <p class="reveal" style="--d:.12s">و شگفتی این‌جاست: نسبت هر عدد به عدد پیشین، آرام‌آرام به φ میل می‌کند. هرچه پیش‌تر برویم، نزدیک‌تر.</p>
+  <div class="converge reveal" style="--d:.18s">
+    <p class="converge-title">همگرایی به φ</p>
+    <svg id="convergeSvg" viewBox="0 0 100 34" role="img" aria-label="نمودار همگرایی"></svg>
+  </div>
+  <p class="reveal" style="--d:.1s;margin-top:56px">و همان‌طور که دنباله به φ می‌رسد، هر آونگی هم آهنگ خودش را دارد. وقتی چند آونگ با طول‌های نزدیک به هم رها شوند، الگویی می‌سازند که لحظه‌ای مو‌به‌مو یکسان می‌شود، و بعد از هم می‌پاشد — و باز برمی‌گردد.</p>
+  <div class="canvas-frame frame-pend reveal" style="--d:.14s">
+    <canvas id="pendulum" aria-label="موج آونگی"></canvas>
+  </div>
+  <p class="spiral-caption reveal" style="--d:.2s">موج آونگی — ۱۵ آونگ، یک آهنگ مشترک</p>
+</section>
+
+<div class="rule" aria-hidden="true"></div>
+
+<section class="block wide" id="fractal">
+  <p class="eyebrow"><span>۰۳</span><i></i>فراکتال</p>
+  <h2 class="reveal">شکلی که در هر مقیاسی، خودش است</h2>
+  <p class="reveal" style="--d:.08s">یک شاخه، نسخهٔ کوچکی از درخت است؛ و آن شاخه، نسخهٔ کوچکی از خودش. بی‌نهایت بار می‌توانی نزدیک‌تر شوی و باز هم همان الگو را ببینی. فراکتال، هندسه‌ی چیزهایی است که پایانی ندارند.</p>
+  <div class="canvas-frame frame-tree reveal" style="--d:.14s">
+    <canvas id="tree" aria-label="درخت فراکتالی"></canvas>
+  </div>
+  <p class="spiral-caption reveal" style="--d:.2s">یک درخت دوتایی — ۹ سطح، ۱۰۲۲ شاخه</p>
+  <p class="reveal" style="--d:.1s;margin-top:56px">و شاید زیباترین نمونه‌اش، سرخسی باشد که با چهار تبدیل ساده ساخته می‌شود. هر برگ، خودش یک درخت است؛ و هر درخت، خودش یک برگ.</p>
+  <div class="canvas-frame frame-fern reveal" style="--d:.14s">
+    <canvas id="fern" aria-label="سرخس بارنسلی"></canvas>
+  </div>
+  <p class="spiral-caption reveal" style="--d:.2s">سرخس بارنسلی — چهار تبدیل، یک درخت بی‌پایان</p>
+</section>
+
+<div class="rule" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     گالری — ۲۷ طرح
+     ═══════════════════════════════════════════════════════════ -->
+<section class="block wide" id="gallery">
+  <p class="eyebrow"><span>۰۴</span><i></i>گالری الگوها</p>
+  <h2 class="reveal">بیست و هفت طرح، بیست و هفت قانون</h2>
+  <p class="reveal" style="--d:.08s">هر طرح با چند خط ریاضی ساخته شده — از فراکتال‌های ساده تا جاذب‌های آشوبناک. وقتی کارت وارد دید شد، خودش را می‌سازد؛ وقتی از دید خارج شد، می‌خوابد تا باتری موبایل را نخورد.</p>
+
+  <div class="gallery-grid" id="galleryGrid">
+
+    <figure class="card" data-anim="koch"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۱</span>دانه‌برف کخ</figcaption></figure>
+
+    <figure class="card" data-anim="sierpinski"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۲</span>مثلث سرپینسکی</figcaption></figure>
+
+    <figure class="card" data-anim="carpet"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۳</span>فرش سرپینسکی</figcaption></figure>
+
+    <figure class="card" data-anim="dragon"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۴</span>اژدهای هایوی</figcaption></figure>
+
+    <figure class="card" data-anim="hilbert"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۵</span>منحنی هیلبرت</figcaption></figure>
+
+    <figure class="card" data-anim="boids"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۶</span>گلهٔ پرندگان</figcaption></figure>
+
+    <figure class="card" data-anim="life"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۷</span>بازی زندگی</figcaption></figure>
+
+    <figure class="card" data-anim="sandpile"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۸</span>تودهٔ شن</figcaption></figure>
+
+    <figure class="card" data-anim="dla"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۰۹</span>درخت بلور</figcaption></figure>
+
+    <figure class="card" data-anim="lorenz"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۰</span>جاذب لورنز</figcaption></figure>
+
+    <figure class="card" data-anim="pend2"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۱</span>پاندول دوگانه</figcaption></figure>
+
+    <figure class="card" data-anim="nbody"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۲</span>گرانش N-جسم</figcaption></figure>
+
+    <figure class="card" data-anim="mandel"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۳</span>مجموعهٔ ماندلبروت</figcaption></figure>
+
+    <figure class="card" data-anim="julia"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۴</span>مجموعهٔ جولیا</figcaption></figure>
+
+    <figure class="card" data-anim="clifford"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۵</span>جاذب کلیفورد</figcaption></figure>
+
+    <figure class="card" data-anim="waves"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۶</span>تداخل موج</figcaption></figure>
+
+    <figure class="card" data-anim="chladni"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۷</span>الگوی کلادنی</figcaption></figure>
+
+    <figure class="card" data-anim="spiro"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۸</span>اسپیروگراف</figcaption></figure>
+
+    <figure class="card" data-anim="lissajous"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۱۹</span>منحنی لیساژو</figcaption></figure>
+
+    <figure class="card" data-anim="modtimes"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۰</span>جدول ضرب مدولار</figcaption></figure>
+
+    <figure class="card" data-anim="mandala"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۱</span>مندالا</figcaption></figure>
+
+    <figure class="card" data-anim="voronoi"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۲</span>سلول‌های ورونوی</figcaption></figure>
+
+    <figure class="card" data-anim="rose"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۳</span>گل رز قطبی</figcaption></figure>
+
+    <figure class="card" data-anim="cube"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۴</span>مکعب چرخان</figcaption></figure>
+
+    <figure class="card" data-anim="icosa"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۵</span>ایکوسائدر</figcaption></figure>
+
+    <figure class="card" data-anim="dejong"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۶</span>جاذب دی‌جونگ</figcaption></figure>
+
+    <figure class="card" data-anim="tess3"><div class="card-canvas"><canvas></canvas></div>
+      <figcaption><span class="n">۲۷</span>تسراکت</figcaption></figure>
+
+  </div>
+
+  <p class="gallery-note reveal" style="--d:.2s">↻ هر کارت فقط وقتی زنده است که در دید باشد</p>
+</section>
+
+<div class="rule" aria-hidden="true"></div>
+
+<section class="block wide" id="infinity">
+  <p class="eyebrow"><span>۰۵</span><i></i>بی‌نهایت</p>
+  <h2 class="reveal">بی‌نهایت یک عدد نیست؛ یک رفتار است</h2>
+  <p class="reveal" style="--d:.08s">کانتور نشان داد که بعضی بی‌نهایت‌ها از بعضی دیگر بزرگ‌ترند — که بی‌نهایتِ نقطه‌های یک خط، بی‌شمارتر از بی‌نهایتِ عددهای طبیعی است. ذهن می‌لغزد؛ <strong>ریاضیات اما آرام می‌ماند</strong>.</p>
+  <div class="canvas-frame frame-harm reveal" style="--d:.14s">
+    <canvas id="harm" aria-label="هارمونوگراف"></canvas>
+  </div>
+  <p class="spiral-caption reveal" style="--d:.2s">هارمونوگراف — دو آونگ، یک منحنی بی‌پایان</p>
+  <p class="reveal" style="--d:.1s;margin-top:56px">و شاید عجیب‌ترین چیز، شکلی باشد که در چهار بُعد ساده است و در دو بُعد پیچیده: تسراکت، مکعبی چهاربعدی که هر گوشه‌اش به چهار گوشهٔ دیگر وصل است. ما فقط سایه‌اش را می‌بینیم — و همین سایه، خودش یک جهان است.</p>
+  <div class="canvas-frame frame-pend reveal" style="--d:.14s">
+    <canvas id="tesseract" aria-label="تسراکت چهاربعدی"></canvas>
+  </div>
+  <p class="spiral-caption reveal" style="--d:.2s">تسراکت — چرخش در چهار بُعد، سایه‌ای در دو بُعد</p>
+</section>
+
+<section class="closing">
+  <p class="quote reveal">هرچه دقیق‌تر نگاه کنی، الگوها بیشتر می‌شوند.<br>و هرچه الگوها بیشتر شوند، پرسش‌ها بیشتر می‌شوند.<br><span class="accent">و این، شاید تمامِ آن چیزی باشد که ریاضیات هست:</span><br>راهی برای پرسیدنِ دقیق‌تر.</p>
+</section>
+
+</main>
+
+<footer>
+  <span class="phi">φ</span>
+  سکوتِ عددها · ساخته‌شده با علاقه به الگوها
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════
+   ابزارها
+   ═══════════════════════════════════════════════════════════ */
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = matchMedia('(max-width: 768px)').matches;
+const lowEnd = (navigator.hardwareConcurrency || 4) <= 4;
+const DPR_CAP = (isMobile || lowEnd) ? 1.5 : 2;
+const clamp = (v,a,b) => v < a ? a : v > b ? b : v;
+const $ = s => document.querySelector(s);
+const $$ = s => Array.prototype.slice.call(document.querySelectorAll(s));
+const SVGNS = 'http://www.w3.org/2000/svg';
+const svgEl = (n, a) => { const e = document.createElementNS(SVGNS, n); if (a) for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+/* ═══════════════════════════════════════════════════════════
+   ✅ رفع باگ قفل اسکرول — لودر با fail-safe
+   ═══════════════════════════════════════════════════════════ */
+(function fixLoader(){
+  const l = document.getElementById('loader');
+  if (!l) return;
+  let hidden = false;
+  function hide(){
+    if (hidden) return; hidden = true;
+    l.classList.add('done');
+    setTimeout(() => { if (l.parentNode) l.parentNode.removeChild(l); }, 1200);
+  }
+  // تلاش اول: DOMContentLoaded (نمی‌مونه پشت گوگل‌فونت)
+  if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    setTimeout(hide, REDUCED ? 0 : 250);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(hide, REDUCED ? 0 : 250), { once: true });
+  }
+  // فِیل‌سیف مطلق: هرچه شد بعد از ۱.۸ ثانیه پاک شود
+  setTimeout(hide, 1800);
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   پیشرفت + نوارها
+   ═══════════════════════════════════════════════════════════ */
+const progEl = $('#progress'), topbarEl = $('#topbar'), navDots = $('#navDots');
+
+function onScroll(){
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const p = max > 0 ? clamp(scrollY / max, 0, 1) : 0;
+  progEl.style.width = (p * 100).toFixed(2) + '%';
+  const past = scrollY > innerHeight * 0.55;
+  topbarEl.classList.toggle('show', past);
+  navDots.classList.toggle('show', past);
+}
+
+/* بخش فعال */
+(function trackActive(){
+  const ids = ['hero','intro','phi','fib','fractal','gallery','infinity'];
+  const els = ids.map(id => document.getElementById(id)).filter(Boolean);
+  const links = $$('.nav-dots a');
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        const id = e.target.id;
+        links.forEach(a => a.classList.toggle('active', a.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-48% 0px -48% 0px' }).observe;
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        const id = e.target.id;
+        links.forEach(a => a.classList.toggle('active', a.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-48% 0px -48% 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* ظاهر شدن */
+(function initReveal(){
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  $$('.reveal, .card').forEach(el => io.observe(el));
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   موتور مشترک برای همهٔ انیمیشن‌ها
+   ═══════════════════════════════════════════════════════════ */
+function makeCanvas(canvas){
+  const rect = canvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+  const w = Math.max(1, rect.width), h = Math.max(1, rect.height);
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, w, h };
+}
+
+function Engine(canvas, def){
+  const opt = def.opt || {};
+  let ctx, W, H, state;
+  let raf = null, running = false, visible = false;
+  let lastT = 0, t = 0;
+
+  function resize(){
+    const s = makeCanvas(canvas);
+    ctx = s.ctx; W = s.w; H = s.h;
+    state = def.setup ? def.setup(W, H) : {};
+    t = 0;
+    def.draw(ctx, W, H, 0, state);
+  }
+
+  function frame(now){
+    if (!running) return;
+    const dt = Math.min(0.05, (now - lastT) / 1000);
+    lastT = now;
+    t += dt * (opt.speed || 1);
+    const dur = opt.duration;
+    if (dur && t > dur){
+      if (opt.loop === false){ def.draw(ctx, W, H, dur, state); return; }
+      t = 0; state = def.setup ? def.setup(W, H) : {};
+    }
+    def.draw(ctx, W, H, t, state);
+    raf = requestAnimationFrame(frame);
+  }
+
+  function start(){
+    if (running) return;
+    running = true; lastT = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop(){
+    running = false;
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+  }
+
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ visible = true; resize(); start(); }
+      else { visible = false; stop(); }
+    });
+  }, { threshold: 0.08 }).observe(canvas);
+
+  let rz;
+  addEventListener('resize', function(){
+    clearTimeout(rz);
+    rz = setTimeout(function(){ if (visible) resize(); }, 200);
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) stop(); else if (visible) start();
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ۲۷ طرح
+   ═══════════════════════════════════════════════════════════ */
+const A = {};
+
+/* ۰۱ — دانه‌برف کخ */
+A.koch = {
+  opt: { duration: 7, loop: true },
+  setup: (W, H) => {
+    const R = Math.min(W, H) * 0.35;
+    const cx = W/2, cy = H/2;
+    let segs = [];
+    const v = [];
+    for (let i = 0; i < 3; i++){
+      const a = -Math.PI/2 + i * Math.PI * 2/3;
+      v.push([cx + Math.cos(a)*R, cy + Math.sin(a)*R]);
+    }
+    for (let i = 0; i < 3; i++) segs.push([v[i], v[(i+1)%3]]);
+    for (let it = 0; it < 4; it++){
+      const next = [];
+      for (const [a, b] of segs){
+        const dx = b[0]-a[0], dy = b[1]-a[1];
+        const p1 = [a[0]+dx/3, a[1]+dy/3];
+        const p3 = [a[0]+dx*2/3, a[1]+dy*2/3];
+        const ang = Math.atan2(dy, dx) - Math.PI/3;
+        const L = Math.hypot(dx, dy)/3;
+        const p2 = [p1[0]+Math.cos(ang)*L, p1[1]+Math.sin(ang)*L];
+        next.push([a,p1],[p1,p2],[p2,p3],[p3,b]);
+      }
+      segs = next;
+    }
+    return { segs };
+  },
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const total = s.segs.length;
+    const show = Math.floor(total * Math.min(t/5, 1));
+    ctx.strokeStyle = 'rgba(240,198,116,.85)';
+    ctx.lineWidth = 1.1; ctx.lineCap = 'round';
+    ctx.beginPath();
+    for (let i = 0; i < show; i++){
+      const [a,b] = s.segs[i];
+      ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
+    }
+    ctx.stroke();
+    if (show < total && show > 0){
+      const [a] = s.segs[show];
+      ctx.beginPath(); ctx.arc(a[0],a[1],2.5,0,7);
+      ctx.fillStyle = 'rgba(255,240,205,.95)'; ctx.fill();
+    }
+  }
+};
+
+/* ۰۲ — مثلث سرپینسکی (بازی آشوب) */
+A.sierpinski = {
+  opt: { duration: 6, loop: true },
+  setup: (W, H) => {
+    const R = Math.min(W, H) * 0.42;
+    const cx = W/2, cy = H/2 + R*0.12;
+    const v = [];
+    for (let i = 0; i < 3; i++){
+      const a = -Math.PI/2 + i * Math.PI * 2/3;
+      v.push([cx + Math.cos(a)*R, cy + Math.sin(a)*R]);
+    }
+    return { v, pts: [], last: v[0] };
+  },
+  draw: (ctx, W, H, t, s) => {
+    const target = Math.min(3500, Math.floor(t * 900));
+    while (s.pts.length/2 < target){
+      for (let i = 0; i < 40 && s.pts.length/2 < target; i++){
+        const p = s.v[Math.floor(Math.random()*3)];
+        s.last = [(s.last[0]+p[0])/2, (s.last[1]+p[1])/2];
+        s.pts.push(s.last[0], s.last[1]);
+      }
+    }
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(126,184,212,.85)';
+    for (let i = 0; i < s.pts.length; i += 2){
+      ctx.fillRect(s.pts[i], s.pts[i+1], 1.4, 1.4);
+    }
+  }
+};
+
+/* ۰۳ — فرش سرپینسکی */
+A.carpet = {
+  opt: { duration: 8, loop: true },
+  setup: (W, H) => {
+    const size = Math.min(W, H) * 0.82;
+    const x0 = (W-size)/2, y0 = (H-size)/2;
+    const rects = [];
+    (function rec(x, y, w, d){
+      if (d > 4 || w < 1) return;
+      const s3 = w/3;
+      for (let i = 0; i < 3; i++)
+        for (let j = 0; j < 3; j++){
+          if (i === 1 && j === 1) continue;
+          if (d === 4) rects.push([x+i*s3, y+j*s3, s3]);
+          else rec(x+i*s3, y+j*s3, s3, d+1);
+        }
+    })(x0, y0, size, 0);
+    return { rects };
+  },
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const show = Math.floor(s.rects.length * Math.min(t/5, 1));
+    ctx.fillStyle = 'rgba(157,186,157,.8)';
+    for (let i = 0; i < show; i++){
+      const r = s.rects[i];
+      ctx.fillRect(r[0], r[1], r[2]-0.4, r[2]-0.4);
+    }
+  }
+};
+
+/* ۰۴ — اژدهای هایوی */
+A.dragon = {
+  opt: { duration: 7, loop: true },
+  setup: (W, H) => {
+    let seq = [];
+    for (let i = 0; i < 12; i++){
+      const next = seq.slice();
+      next.push(1);
+      for (let j = seq.length-1; j >= 0; j--) next.push(-seq[j]);
+      seq = next;
+    }
+    let dir = 0, x = 0, y = 0, step = 1;
+    const raw = [[0,0]];
+    for (const turn of seq){
+      dir += turn * Math.PI/2;
+      x += Math.cos(dir)*step; y += Math.sin(dir)*step;
+      raw.push([x, y]);
+    }
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (const p of raw){
+      if (p[0] < minX) minX = p[0]; if (p[0] > maxX) maxX = p[0];
+      if (p[1] < minY) minY = p[1]; if (p[1] > maxY) maxY = p[1];
+    }
+    const sc = Math.min(W/(maxX-minX), H/(maxY-minY)) * 0.85;
+    const ox = W/2 - (minX+maxX)/2 * sc;
+    const oy = H/2 - (minY+maxY)/2 * sc;
+    return { pts: raw.map(p => [p[0]*sc+ox, p[1]*sc+oy]) };
+  },
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const show = Math.floor(s.pts.length * Math.min(t/4, 1));
+    ctx.strokeStyle = 'rgba(201,137,158,.85)';
+    ctx.lineWidth = 1; ctx.lineCap = 'round';
+    ctx.beginPath();
+    for (let i = 0; i < show; i++){
+      const p = s.pts[i];
+      if (i === 0) ctx.moveTo(p[0], p[1]);
+      else ctx.lineTo(p[0], p[1]);
+    }
+    ctx.stroke();
+  }
+};
+
+/* ۰۵ — منحنی هیلبرت */
+A.hilbert = {
+  opt: { duration: 7, loop: true },
+  setup: (W, H) => {
+    const order = 4;
+    const n = 1 << order;
+    function d2xy(d){
+      let rx, ry, x = 0, y = 0, tt = d;
+      for (let s = 1; s < n; s *= 2){
+        rx = 1 & (tt/2);
+        ry = 1 & (tt ^ rx);
+        if (ry === 0){
+          if (rx === 1){ x = s-1-x; y = s-1-y; }
+          const tmp = x; x = y; y = tmp;
+        }
+        x += s * rx; y += s * ry;
+        tt = Math.floor(tt / 4);
+      }
+      return [x, y];
+    }
+    const size = Math.min(W, H) * 0.8;
+    const sc = size / n;
+    const ox = (W-size)/2 + sc/2, oy = (H-size)/2 + sc/2;
+    const pts = [];
+    for (let i = 0; i < n*n; i++){
+      const [x, y] = d2xy(i);
+      pts.push([ox + x*sc, oy + y*sc]);
+    }
+    return { pts };
+  },
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const show = Math.floor(s.pts.length * Math.min(t/5, 1));
+    ctx.strokeStyle = 'rgba(217,164,65,.85)';
+    ctx.lineWidth = 1.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    for (let i = 0; i < show; i++){
+      const p = s.pts[i];
+      if (i === 0) ctx.moveTo(p[0], p[1]);
+      else ctx.lineTo(p[0], p[1]);
+    }
+    ctx.stroke();
+  }
+};
+
+/* ۰۶ — گلهٔ پرندگان (Boids) */
+A.boids = {
+  opt: { duration: Infinity },
+  setup: (W, H) => {
+    const N = Math.min(70, Math.max(30, Math.floor(W*H/2200)));
+    const bs = [];
+    for (let i = 0; i < N; i++){
+      bs.push({
+        x: Math.random()*W, y: Math.random()*H,
+        vx: (Math.random()-.5)*2, vy: (Math.random()-.5)*2
+      });
+    }
+    return { bs };
+  },
+  draw: (ctx, W, H, t, s) => {
+    const b = s.bs, N = b.length;
+    const per = Math.min(W, H) * 0.22;
+    const sep = per * 0.5;
+    for (let i = 0; i < N; i++){
+      const bi = b[i];
+      let cx=0, cy=0, ax=0, ay=0, sx=0, sy=0, n1=0, n2=0;
+      for (let j = 0; j < N; j++){
+        if (i === j) continue;
+        const bj = b[j];
+        const dx = bj.x-bi.x, dy = bj.y-bi.y;
+        const d = Math.hypot(dx, dy);
+        if (d < per && d > 0){
+          cx += bj.x; cy += bj.y; n1++;
+          ax += bj.vx; ay += bj.vy;
+          if (d < sep){ sx -= dx/d; sy -= dy/d; n2++; }
+        }
+      }
+      if (n1){ cx/=n1; cy/=n1; ax/=n1; ay/=n1; }
+      if (n2){ sx/=n2; sy/=n2; }
+      bi.vx += (cx-bi.x)*0.0007 + (ax-bi.vx)*0.05 + sx*0.05;
+      bi.vy += (cy-bi.y)*0.0007 + (ay-bi.vy)*0.05 + sy*0.05;
+      const sp = Math.hypot(bi.vx, bi.vy);
+      if (sp > 1.8){ bi.vx *= 1.8/sp; bi.vy *= 1.8/sp; }
+      if (sp > 0 && sp < 0.6){ bi.vx *= 0.6/sp; bi.vy *= 0.6/sp; }
+      bi.x += bi.vx; bi.y += bi.vy;
+      if (bi.x < 0) bi.x += W; if (bi.x > W) bi.x -= W;
+      if (bi.y < 0) bi.y += H; if (bi.y > H) bi.y -= H;
+    }
+    ctx.fillStyle = 'rgba(7,7,12,.14)';
+    ctx.fillRect(0, 0, W, H);
+    for (const bi of b){
+      ctx.beginPath();
+      ctx.arc(bi.x, bi.y, 1.8, 0, 7);
+      ctx.fillStyle = 'rgba(217,164,65,.85)';
+      ctx.fill();
+    }
+  }
+};
+
+/* ۰۷ — بازی زندگی */
+A.life = {
+  opt: { duration: Infinity },
+  setup: (W, H) => {
+    const cols = 38, rows = Math.round(38 * H / W);
+    const grid = new Uint8Array(cols*rows);
+    for (let i = 0; i < grid.length; i++) grid[i] = Math.random() < 0.32 ? 1 : 0;
+    return { cols, rows, grid, last: -1 };
+  },
+  draw: (ctx, W, H, t, s) => {
+    if (t - s.last < 0.09) return;
+    s.last = t;
+    const { cols, rows, grid } = s;
+    const next = new Uint8Array(cols*rows);
+    for (let y = 0; y < rows; y++)
+      for (let x = 0; x < cols; x++){
+        let n = 0;
+        for (let dy = -1; dy <= 1; dy++)
+          for (let dx = -1; dx <= 1; dx++){
+            if (dx === 0 && dy === 0) continue;
+            n += grid[((y+dy+rows)%rows)*cols + ((x+dx+cols)%cols)];
+          }
+        const i = y*cols+x;
+        next[i] = grid[i] ? (n === 2 || n === 3 ? 1 : 0) : (n === 3 ? 1 : 0);
+      }
+    s.grid = next;
+    ctx.clearRect(0, 0, W, H);
+    const cw = W/cols, ch = H/rows;
+    ctx.fillStyle = 'rgba(157,186,157,.85)';
+    for (let y = 0; y < rows; y++)
+      for (let x = 0; x < cols; x++)
+        if (next[y*cols+x]) ctx.fillRect(x*cw, y*ch, cw-0.4, ch-0.4);
+  }
+};
+
+/* ۰۸ — تودهٔ شن */
+A.sandpile = {
+  opt: { duration: Infinity },
+  setup: (W, H) => ({ N: 64, grid: new Int32Array(64*64), added: 0, last: -1 }),
+  draw: (ctx, W, H, t, s) => {
+    if (t - s.last < 0.06) return;
+    s.last = t;
+    const N = s.N, g = s.grid;
+    const cx = N>>1, cy = N>>1;
+    for (let add = 0; add < 2; add++){
+      g[cy*N+cx]++;
+      let changed = true, iter = 0;
+      while (changed && iter < 30){
+        changed = false; iter++;
+        for (let y = 0; y < N; y++)
+          for (let x = 0; x < N; x++){
+            const i = y*N+x;
+            if (g[i] >= 4){
+              const q = g[i] >> 2;
+              g[i] -= q*4;
+              if (x > 0) g[i-1] += q;
+              if (x < N-1) g[i+1] += q;
+              if (y > 0) g[i-N] += q;
+              if (y < N-1) g[i+N] += q;
+              changed = true;
+            }
+          }
+      }
+    }
+    ctx.clearRect(0, 0, W, H);
+    const cw = W/N;
+    for (let y = 0; y < N; y++)
+      for (let x = 0; x < N; x++){
+        const v = g[y*N+x];
+        if (v === 0) continue;
+        ctx.fillStyle = 'hsla(' + (36 - v*4) + ',68%,' + (50+v*4) + '%,.9)';
+        ctx.fillRect(x*cw, y*cw, cw-0.3, cw-0.3);
+      }
+  }
+};
+
+/* ۰۹ — درخت بلور (DLA) */
+A.dla = {
+  opt: { duration: 10, loop: true },
+  setup: (W, H) => {
+    const cs = 3;
+    const cols = Math.floor(W/cs), rows = Math.floor(H/cs);
+    const grid = new Uint8Array(cols*rows);
+    const cx = cols>>1, cy = rows>>1;
+    grid[cy*cols+cx] = 1;
+    return { grid, cols, rows, cs, seeds: [[cx, cy]] };
+  },
+  draw: (ctx, W, H, t, s) => {
+    const { grid, cols, rows, cs } = s;
+    for (let k = 0; k < 80; k++){
+      const p = s.seeds[Math.floor(Math.random()*s.seeds.length)];
+      const dir = Math.floor(Math.random()*4);
+      const dx = [1,-1,0,0][dir], dy = [0,0,1,-1][dir];
+      const nx = p[0]+dx, ny = p[1]+dy;
+      if (nx < 0 || nx >= cols || ny < 0 || ny >= rows) continue;
+      const i = ny*cols+nx;
+      if (grid[i]) continue;
+      grid[i] = 1;
+      s.seeds.push([nx, ny]);
+    }
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(240,198,116,.82)';
+    for (let y = 0; y < rows; y++)
+      for (let x = 0; x < cols; x++)
+        if (grid[y*cols+x]) ctx.fillRect(x*cs, y*cs, cs-0.5, cs-0.5);
+  }
+};
+
+/* ۱۰ — جاذب لورنز */
+A.lorenz = {
+  opt: { duration: Infinity },
+  setup: () => ({ pts: [], x: 0.1, y: 0, z: 0, last: performance.now() }),
+  draw: (ctx, W, H, t, s) => {
+    const dt = 0.005;
+    for (let i = 0; i < 14; i++){
+      const dx = 10*(s.y-s.x);
+      const dy = s.x*(28-s.z) - s.y;
+      const dz = s.x*s.y - (8/3)*s.z;
+      s.x += dx*dt; s.y += dy*dt; s.z += dz*dt;
+      s.pts.push([s.x, s.y, s.z]);
+      if (s.pts.length > 3500) s.pts.shift();
+    }
+    ctx.fillStyle = 'rgba(7,7,12,.08)';
+    ctx.fillRect(0, 0, W, H);
+    const sc = Math.min(W, H) / 60;
+    const ox = W/2, oy = H/2;
+    ctx.strokeStyle = 'rgba(126,184,212,.72)';
+    ctx.lineWidth = 0.75;
+    ctx.beginPath();
+    for (let i = 0; i < s.pts.length; i++){
+      const p = s.pts[i];
+      const X = ox + (p[0] + p[1]*0.35) * sc;
+      const Y = oy + (p[2] - 25) * sc * 0.9;
+      if (i === 0) ctx.moveTo(X, Y);
+      else ctx.lineTo(X, Y);
+    }
+    ctx.stroke();
+  }
+};
+
+/* ۱۱ — پاندول دوگانه */
+A.pend2 = {
+  opt: { duration: Infinity },
+  setup: () => ({
+    t1: Math.PI/2, t2: Math.PI/2 + 0.1, w1: 0, w2: 0,
+    trail: [], last: performance.now()
+  }),
+  draw: (ctx, W, H, t, s) => {
+    const now = performance.now();
+    const dt = Math.min(0.03, (now - s.last)/1000);
+    s.last = now;
+    for (let k = 0; k < 3; k++){
+      const { t1, t2, w1, w2 } = s;
+      const d = t2 - t1;
+      const den = 2 - Math.cos(2*d); // m1=m2=1, L=1
+      const a1 = (-9.81*2*Math.sin(t1) - 9.81*Math.sin(t1-2*t2) - 2*Math.sin(d)*(w2*w2 + w1*w1*Math.cos(d))) / den;
+      const a2 = (2*Math.sin(d)*(w1*w1*2 + 9.81*2*Math.cos(t1) + w2*w2*Math.cos(d))) / den;
+      s.w1 += a1*dt/3; s.w2 += a2*dt/3;
+      s.t1 += s.w1*dt/3; s.t2 += s.w2*dt/3;
+    }
+    const sc = Math.min(W, H) * 0.19;
+    const ox = W/2, oy = H*0.32;
+    const x1 = ox + Math.sin(s.t1)*sc;
+    const y1 = oy + Math.cos(s.t1)*sc;
+    const x2 = x1 + Math.sin(s.t2)*sc;
+    const y2 = y1 + Math.cos(s.t2)*sc;
+    ctx.fillStyle = 'rgba(7,7,12,.09)';
+    ctx.fillRect(0, 0, W, H);
+    s.trail.push([x2, y2]);
+    if (s.trail.length > 500) s.trail.shift();
+    ctx.strokeStyle = 'rgba(217,164,65,.35)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = 0; i < s.trail.length; i++){
+      const p = s.trail[i];
+      if (i === 0) ctx.moveTo(p[0], p[1]);
+      else ctx.lineTo(p[0], p[1]);
+    }
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(240,198,116,.9)';
+    ctx.lineWidth = 2; ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(ox, oy); ctx.lineTo(x1, y1); ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(240,198,116,.9)';
+    ctx.beginPath(); ctx.arc(x1, y1, 3.5, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.arc(x2, y2, 4.5, 0, 7); ctx.fill();
+  }
+};
+
+/* ۱۲ — گرانش N-جسم */
+A.nbody = {
+  opt: { duration: Infinity },
+  setup: (W, H) => {
+    const N = 10, bs = [];
+    for (let i = 0; i < N; i++){
+      const a = Math.random()*7;
+      const r = 25 + Math.random()*Math.min(W,H)*0.3;
+      bs.push({
+        x: W/2 + Math.cos(a)*r, y: H/2 + Math.sin(a)*r,
+        vx: -Math.sin(a)*0.3 + (Math.random()-.5)*0.15,
+        vy: Math.cos(a)*0.3 + (Math.random()-.5)*0.15,
+        m: 0.5 + Math.random()
+      });
+    }
+    return { bs };
+  },
+  draw: (ctx, W, H, t, s) => {
+    const dt = 0.02, G = 40;
+    for (const b of s.bs){
+      let fx = 0, fy = 0;
+      for (const o of s.bs){
+        if (o === b) continue;
+        const dx = o.x-b.x, dy = o.y-b.y;
+        const d2 = dx*dx + dy*dy + 40;
+        const d = Math.sqrt(d2);
+        const f = G * o.m / d2;
+        fx += f*dx/d; fy += f*dy/d;
+      }
+      b.vx += fx*dt; b.vy += fy*dt;
+    }
+    for (const b of s.bs){ b.x += b.vx*dt; b.y += b.vy*dt; }
+    ctx.fillStyle = 'rgba(7,7,12,.18)';
+    ctx.fillRect(0, 0, W, H);
+    for (const b of s.bs){
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 6 + b.m*3, 0, 7);
+      ctx.fillStyle = 'rgba(217,164,65,.13)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 2 + b.m*1.4, 0, 7);
+      ctx.fillStyle = 'rgba(240,198,116,.9)';
+      ctx.fill();
+    }
+  }
+};
+
+/* ۱۳ — ماندلبروت */
+A.mandel = {
+  opt: { duration: Infinity },
+  setup: () => ({ done: false }),
+  draw: (ctx, W, H, t, s) => {
+    if (s.done) return;
+    const bs = 3, maxIt = 55;
+    const sc = 3.2 / Math.min(W, H);
+    ctx.fillStyle = 'rgb(7,7,12)';
+    ctx.fillRect(0, 0, W, H);
+    for (let py = 0; py < H; py += bs)
+      for (let px = 0; px < W; px += bs){
+        let x = 0, y = 0, i = 0;
+        const x0 = (px - W/2)*sc - 0.5;
+        const y0 = (py - H/2)*sc;
+        while (x*x + y*y <= 4 && i < maxIt){
+          const xt = x*x - y*y + x0;
+          y = 2*x*y + y0;
+          x = xt; i++;
+        }
+        if (i === maxIt) continue;
+        const v = i/maxIt;
+        ctx.fillStyle = 'rgb(' + Math.round(40+v*215) + ',' + Math.round(30+v*175) + ',' + Math.round(15+v*135) + ')';
+        ctx.fillRect(px, py, bs, bs);
+      }
+    s.done = true;
+  }
+};
+
+/* ۱۴ — جولیا */
+A.julia = {
+  opt: { duration: Infinity },
+  setup: () => ({ done: false }),
+  draw: (ctx, W, H, t, s) => {
+    if (s.done) return;
+    const bs = 3, maxIt = 50;
+    const sc = 3 / Math.min(W, H);
+    const jr = -0.79, ji = 0.15;
+    ctx.fillStyle = 'rgb(7,7,12)';
+    ctx.fillRect(0, 0, W, H);
+    for (let py = 0; py < H; py += bs)
+      for (let px = 0; px < W; px += bs){
+        let x = (px-W/2)*sc, y = (py-H/2)*sc, i = 0;
+        while (x*x + y*y <= 4 && i < maxIt){
+          const xt = x*x - y*y + jr;
+          y = 2*x*y + ji;
+          x = xt; i++;
+        }
+        if (i === maxIt) continue;
+        const v = i/maxIt;
+        ctx.fillStyle = 'rgb(' + Math.round(60+v*180) + ',' + Math.round(40+v*150) + ',' + Math.round(90+v*140) + ')';
+        ctx.fillRect(px, py, bs, bs);
+      }
+    s.done = true;
+  }
+};
+
+/* ۱۵ — جاذب کلیفورد */
+A.clifford = {
+  opt: { duration: Infinity },
+  setup: () => ({ x: 0.1, y: 0.1, pts: [] }),
+  draw: (ctx, W, H, t, s) => {
+    const a = -1.4, b = 1.6, c = 1.0, d = 0.7;
+    for (let i = 0; i < 350; i++){
+      const nx = Math.sin(a*s.y) + c*Math.cos(a*s.x);
+      const ny = Math.sin(b*s.x) + d*Math.cos(b*s.y);
+      s.x = nx; s.y = ny;
+      s.pts.push([nx, ny]);
+      if (s.pts.length > 12000) s.pts.shift();
+    }
+    ctx.fillStyle = 'rgba(7,7,12,.06)';
+    ctx.fillRect(0, 0, W, H);
+    const sc = Math.min(W, H) * 0.22;
+    ctx.fillStyle = 'rgba(217,164,65,.42)';
+    for (const p of s.pts){
+      ctx.fillRect(W/2 + p[0]*sc, H/2 + p[1]*sc, 1, 1);
+    }
+  }
+};
+
+/* ۱۶ — تداخل موج */
+A.waves = {
+  opt: { duration: Infinity },
+  setup: (W, H) => {
+    const bs = 4;
+    return {
+      bs, cols: Math.ceil(W/bs), rows: Math.ceil(H/bs),
+      src: [[W*0.32, H*0.42], [W*0.68, H*0.42], [W*0.5, H*0.68]]
+    };
+  },
+  draw: (ctx, W, H, t, s) => {
+    const { bs, cols, rows, src } = s;
+    for (let y = 0; y < rows; y++){
+      for (let x = 0; x < cols; x++){
+        const px = x*bs + bs/2, py = y*bs + bs/2;
+        let sum = 0;
+        for (const [sx, sy] of src){
+          const d = Math.hypot(px-sx, py-sy);
+          sum += Math.sin(d*0.13 - t*3.5) / (1 + d*0.018);
+        }
+        const v = (sum + 3) / 6;
+        ctx.fillStyle = 'rgb(' + Math.round(40+v*200) + ',' + Math.round(30+v*170) + ',' + Math.round(80+v*150) + ')';
+        ctx.fillRect(x*bs, y*bs, bs, bs);
+      }
+    }
+  }
+};
+
+/* ۱۷ — کلادنی */
+A.chladni = {
+  opt: { duration: Infinity },
+  setup: (W, H) => {
+    const N = isMobile || lowEnd ? 300 : 500;
+    const ps = [];
+    for (let i = 0; i < N; i++) ps.push({ x: Math.random(), y: Math.random() });
+    return { ps, lastM: 3, m: 3, n: 2 };
+  },
+  draw: (ctx, W, H, t, s) => {
+    // تغییر آرام m, n
+    if (t - s.lastM > 4){
+      s.m = 1 + Math.floor(Math.random()*5);
+      s.n = 1 + Math.floor(Math.random()*5);
+      s.lastM = t;
+    }
+    const m = s.m, n = s.n;
+    for (const p of s.ps){
+      const amp = Math.sin(n*Math.PI*p.x) * Math.sin(m*Math.PI*p.y);
+      const dfx = n*Math.PI*Math.cos(n*Math.PI*p.x) * Math.sin(m*Math.PI*p.y);
+      const dfy = m*Math.PI*Math.sin(n*Math.PI*p.x) * Math.cos(m*Math.PI*p.y);
+      p.x -= dfx * amp * 0.0009 + (Math.random()-.5)*0.006;
+      p.y -= dfy * amp * 0.0009 + (Math.random()-.5)*0.006;
+      p.x = Math.max(0.005, Math.min(0.995, p.x));
+      p.y = Math.max(0.005, Math.min(0.995, p.y));
+    }
+    ctx.fillStyle = 'rgba(7,7,12,.16)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(217,164,65,.55)';
+    for (const p of s.ps) ctx.fillRect(p.x*W, p.y*H, 1, 1);
+  }
+};
+
+/* ۱۸ — اسپیروگراف */
+A.spiro = {
+  opt: { duration: 10, loop: true },
+  setup: () => ({ last: 0 }),
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const R = 1, r = 0.55, d = 0.75;
+    const maxT = Math.PI * 2 * 20;
+    const tNow = Math.min(t / 7 * maxT, maxT);
+    const sc = Math.min(W, H) * 0.42;
+    const cx = W/2, cy = H/2;
+    ctx.strokeStyle = 'rgba(240,198,116,.75)';
+    ctx.lineWidth = 0.9;
+    ctx.beginPath();
+    let first = true;
+    for (let a = 0; a <= tNow; a += 0.022){
+      const x = (R-r)*Math.cos(a) + d*Math.cos((R-r)/r*a);
+      const y = (R-r)*Math.sin(a) - d*Math.sin((R-r)/r*a);
+      const px = cx + x*sc, py = cy + y*sc;
+      if (first){ ctx.moveTo(px, py); first = false; }
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+};
+
+/* ۱۹ — لیساژو */
+A.lissajous = {
+  opt: { duration: Infinity },
+  setup: () => ({}),
+  draw: (ctx, W, H, t) => {
+    ctx.clearRect(0, 0, W, H);
+    const a = 3, b = 4;
+    const delta = t * 0.55;
+    const sc = Math.min(W, H) * 0.4;
+    const cx = W/2, cy = H/2;
+    ctx.strokeStyle = 'rgba(126,184,212,.8)';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    for (let u = 0; u <= Math.PI*2 + 0.01; u += 0.02){
+      const x = Math.sin(a*u + delta);
+      const y = Math.sin(b*u);
+      const px = cx + x*sc, py = cy + y*sc;
+      if (u === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+};
+
+/* ۲۰ — جدول ضرب مدولار */
+A.modtimes = {
+  opt: { duration: 10, loop: true },
+  setup: () => ({}),
+  draw: (ctx, W, H, t) => {
+    ctx.clearRect(0, 0, W, H);
+    const N = 180;
+    const k = 2 + Math.floor(t / 1.6) % 9;
+    const R = Math.min(W, H) * 0.42;
+    const cx = W/2, cy = H/2;
+    const pts = [];
+    for (let i = 0; i < N; i++){
+      const a = i/N * Math.PI*2 - Math.PI/2;
+      pts.push([cx + Math.cos(a)*R, cy + Math.sin(a)*R]);
+    }
+    ctx.strokeStyle = 'rgba(217,164,65,.32)';
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    for (let i = 0; i < N; i++){
+      const j = (i * k) % N;
+      ctx.moveTo(pts[i][0], pts[i][1]);
+      ctx.lineTo(pts[j][0], pts[j][1]);
+    }
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(240,198,116,.5)';
+    for (const p of pts){
+      ctx.beginPath(); ctx.arc(p[0], p[1], 1.2, 0, 7); ctx.fill();
+    }
+    ctx.font = '600 15px JetBrains Mono, monospace';
+    ctx.fillStyle = 'rgba(240,198,116,.9)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('×' + k, cx, cy);
+  }
+};
+
+/* ۲۱ — مندالا */
+A.mandala = {
+  opt: { duration: 8, loop: true },
+  setup: () => ({}),
+  draw: (ctx, W, H, t) => {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W/2, cy = H/2;
+    const R = Math.min(W, H) * 0.4;
+    const petals = 12;
+    const phase = t * 0.4;
+    ctx.lineCap = 'round';
+    for (let i = 0; i < petals; i++){
+      const a = i * Math.PI * 2 / petals + phase * 0.06;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(a);
+      const hue = 36 + Math.sin(phase + i) * 10;
+      ctx.strokeStyle = 'hsla(' + hue + ',70%,62%,.75)';
+      ctx.lineWidth = 1.1;
+      for (let s = 1; s >= -1; s -= 2){
+        ctx.beginPath();
+        for (let rr = 0; rr <= R; rr += 2.5){
+          const th = rr/R * Math.PI * 0.72;
+          const x = s * Math.sin(th) * rr * 0.32;
+          const y = -rr;
+          if (rr === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.strokeStyle = 'rgba(240,198,116,.35)';
+    ctx.lineWidth = 0.9;
+    for (let i = 1; i <= 5; i++){
+      ctx.beginPath();
+      ctx.arc(cx, cy, R * i/6, 0, 7);
+      ctx.stroke();
+    }
+  }
+};
+
+/* ۲۲ — ورونوی */
+A.voronoi = {
+  opt: { duration: Infinity },
+  setup: (W, H) => {
+    const N = 22;
+    const sd = [];
+    for (let i = 0; i < N; i++)
+      sd.push({ x: Math.random()*W, y: Math.random()*H,
+                vx: (Math.random()-.5)*0.6, vy: (Math.random()-.5)*0.6 });
+    return { sd, cols: 46, rows: Math.round(46 * H / W) };
+  },
+  draw: (ctx, W, H, t, s) => {
+    for (const p of s.sd){
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+    }
+    const cw = W/s.cols, ch = H/s.rows;
+    for (let py = 0; py < s.rows; py++)
+      for (let px = 0; px < s.cols; px++){
+        const x = px*cw + cw/2, y = py*ch + ch/2;
+        let best = 0, bd = Infinity;
+        for (let i = 0; i < s.sd.length; i++){
+          const dx = s.sd[i].x-x, dy = s.sd[i].y-y;
+          const d = dx*dx + dy*dy;
+          if (d < bd){ bd = d; best = i; }
+        }
+        const hue = (best * 47) % 360;
+        ctx.fillStyle = 'hsla(' + hue + ',52%,52%,.85)';
+        ctx.fillRect(px*cw, py*ch, cw+0.5, ch+0.5);
+      }
+  }
+};
+
+/* ۲۳ — گل رز قطبی */
+A.rose = {
+  opt: { duration: 9, loop: true },
+  setup: () => ({}),
+  draw: (ctx, W, H, t) => {
+    ctx.clearRect(0, 0, W, H);
+    const k = 3 + Math.floor(t / 2.2) % 5;
+    const R = Math.min(W, H) * 0.42;
+    const cx = W/2, cy = H/2;
+    ctx.strokeStyle = 'rgba(201,137,158,.85)';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    for (let a = 0; a <= Math.PI*2*2; a += 0.012){
+      const r = Math.cos(k * a);
+      const x = cx + Math.cos(a) * r * R;
+      const y = cy + Math.sin(a) * r * R;
+      if (a === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+};
+
+/* ۲۴ — مکعب چرخان */
+A.cube = {
+  opt: { duration: Infinity },
+  setup: () => {
+    const v = [];
+    for (let i = 0; i < 8; i++) v.push([(i&1)?1:-1, (i&2)?1:-1, (i&4)?1:-1]);
+    const e = [];
+    for (let i = 0; i < 8; i++)
+      for (let j = i+1; j < 8; j++){
+        let d = 0;
+        for (let k = 0; k < 3; k++) if (v[i][k] !== v[j][k]) d++;
+        if (d === 1) e.push([i, j]);
+      }
+    return { v, e };
+  },
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W/2, cy = H/2;
+    const sc = Math.min(W, H) * 0.25;
+    const cX = Math.cos(t*0.7), sX = Math.sin(t*0.7);
+    const cY = Math.cos(t*0.9), sY = Math.sin(t*0.9);
+    const proj = s.v.map(p => {
+      let [x, y, z] = p;
+      const x1 = x*cY - z*sY, z1 = x*sY + z*cY;
+      const y1 = y*cX - z1*sX, z2 = y*sX + z1*cX;
+      const k = 4 / (4 - z2);
+      return [cx + x1*k*sc, cy + y1*k*sc, z2];
+    });
+    s.e.forEach(function(ed){
+      const a = proj[ed[0]], b = proj[ed[1]];
+      const z = (a[2]+b[2])/2;
+      const al = 0.35 + (z + 1.5)/3 * 0.55;
+      ctx.beginPath();
+      ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      ctx.strokeStyle = 'rgba(217,164,65,' + Math.min(1, al) + ')';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+    proj.forEach(p => {
+      ctx.beginPath(); ctx.arc(p[0], p[1], 2.6, 0, 7);
+      ctx.fillStyle = 'rgba(240,198,116,.95)'; ctx.fill();
+    });
+  }
+};
+
+/* ۲۵ — ایکوسائدر */
+A.icosa = {
+  opt: { duration: Infinity },
+  setup: () => {
+    const phi = (1+Math.sqrt(5))/2;
+    const v = [
+      [-1,phi,0],[1,phi,0],[-1,-phi,0],[1,-phi,0],
+      [0,-1,phi],[0,1,phi],[0,-1,-phi],[0,1,-phi],
+      [phi,0,-1],[phi,0,1],[-phi,0,-1],[-phi,0,1]
+    ];
+    const e = [];
+    for (let i = 0; i < v.length; i++)
+      for (let j = i+1; j < v.length; j++){
+        const dx = v[i][0]-v[j][0], dy = v[i][1]-v[j][1], dz = v[i][2]-v[j][2];
+        if (Math.abs(dx*dx+dy*dy+dz*dz - 4) < 0.01) e.push([i, j]);
+      }
+    return { v, e };
+  },
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W/2, cy = H/2;
+    const sc = Math.min(W, H) * 0.22;
+    const cX = Math.cos(t*0.4), sX = Math.sin(t*0.4);
+    const cY = Math.cos(t*0.6), sY = Math.sin(t*0.6);
+    const proj = s.v.map(p => {
+      let [x, y, z] = p;
+      const x1 = x*cY - z*sY, z1 = x*sY + z*cY;
+      const y1 = y*cX - z1*sX, z2 = y*sX + z1*cX;
+      const k = 5 / (5 - z2);
+      return [cx + x1*k*sc, cy + y1*k*sc, z2];
+    });
+    s.e.forEach(function(ed){
+      const a = proj[ed[0]], b = proj[ed[1]];
+      const z = (a[2]+b[2])/2;
+      const al = 0.22 + (z + 2)/4 * 0.55;
+      ctx.beginPath();
+      ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      ctx.strokeStyle = 'rgba(217,164,65,' + Math.max(0.15, al) + ')';
+      ctx.lineWidth = 1.3;
+      ctx.stroke();
+    });
+    proj.forEach(p => {
+      ctx.beginPath(); ctx.arc(p[0], p[1], 1.9, 0, 7);
+      ctx.fillStyle = 'rgba(240,198,116,.9)'; ctx.fill();
+    });
+  }
+};
+
+/* ۲۶ — جاذب دی‌جونگ */
+A.dejong = {
+  opt: { duration: Infinity },
+  setup: () => ({ x: 0.1, y: 0.1, pts: [] }),
+  draw: (ctx, W, H, t, s) => {
+    const a = 1.4 + 0.3*Math.sin(t*0.11);
+    const b = -2.3 + 0.3*Math.cos(t*0.14);
+    const c = 2.4 + 0.3*Math.sin(t*0.18);
+    const d = -2.1 + 0.3*Math.cos(t*0.22);
+    for (let i = 0; i < 320; i++){
+      const nx = Math.sin(a*s.y) - Math.cos(b*s.x);
+      const ny = Math.sin(c*s.x) - Math.cos(d*s.y);
+      s.x = nx; s.y = ny;
+      s.pts.push([nx, ny]);
+      if (s.pts.length > 11000) s.pts.shift();
+    }
+    ctx.fillStyle = 'rgba(7,7,12,.07)';
+    ctx.fillRect(0, 0, W, H);
+    const sc = Math.min(W, H) * 0.22;
+    ctx.fillStyle = 'rgba(126,184,212,.42)';
+    for (const p of s.pts){
+      ctx.fillRect(W/2 + p[0]*sc, H/2 + p[1]*sc, 1, 1);
+    }
+  }
+};
+
+/* ۲۷ — تسراکت */
+A.tess3 = {
+  opt: { duration: Infinity },
+  setup: () => {
+    const v = [];
+    for (let i = 0; i < 16; i++)
+      v.push([(i&1)?1:-1, (i&2)?1:-1, (i&4)?1:-1, (i&8)?1:-1]);
+    const e = [];
+    for (let i = 0; i < 16; i++)
+      for (let j = i+1; j < 16; j++){
+        let d = 0;
+        for (let k = 0; k < 4; k++) if (v[i][k] !== v[j][k]) d++;
+        if (d === 1) e.push([i, j]);
+      }
+    return { v, e };
+  },
+  draw: (ctx, W, H, t, s) => {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W/2, cy = H/2;
+    const sc = Math.min(W, H) * 0.24;
+    const rot = (p, a, i, j) => {
+      const c = Math.cos(a), si = Math.sin(a);
+      const pi = p[i], pj = p[j];
+      p[i] = pi*c - pj*si;
+      p[j] = pi*si + pj*c;
+    };
+    const pts = s.v.map(p => {
+      const v = p.slice();
+      rot(v, t*0.7, 0, 3);
+      rot(v, t*0.5, 1, 3);
+      rot(v, t*0.35, 0, 1);
+      rot(v, t*0.4, 2, 3);
+      const k3 = 3 / (3 - v[3]);
+      const x3 = v[0]*k3, y3 = v[1]*k3, z3 = v[2]*k3;
+      const k2 = 4 / (4 - z3);
+      return [cx + x3*k2*sc, cy + y3*k2*sc, z3];
+    });
+    s.e.forEach(function(ed){
+      const a = pts[ed[0]], b = pts[ed[1]];
+      const z = (a[2] + b[2]) / 2;
+      const al = 0.18 + (1 - Math.min(1, Math.abs(z)*0.45)) * 0.55;
+      ctx.beginPath();
+      ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      ctx.strokeStyle = 'rgba(126,184,212,' + al.toFixed(3) + ')';
+      ctx.lineWidth = z > 0 ? 1.4 : 0.9;
+      ctx.stroke();
+    });
+    pts.forEach(p => {
+      const al = 0.55 + (1 - Math.min(1, Math.abs(p[2])*0.45)) * 0.4;
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 2, 0, 7);
+      ctx.fillStyle = 'rgba(217,164,65,' + al.toFixed(3) + ')';
+      ctx.fill();
+    });
+  }
+};
+
+/* راه‌اندازی گالری */
+(function bootGallery(){
+  const grid = document.getElementById('galleryGrid');
+  if (!grid) return;
+  const cards = $$('.card', grid);
+  // Lazy: فقط وقتی وارد دید شد، Engine ساخته شود
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      const card = e.target;
+      const name = card.dataset.anim;
+      const canvas = card.querySelector('canvas');
+      if (canvas && A[name] && !canvas.dataset.booted){
+        canvas.dataset.booted = '1';
+        try { Engine(canvas, A[name]); } catch (err){ /* silent */ }
+      }
+      card.classList.add('in');
+      io.unobserve(card);
+    });
+  }, { rootMargin: '120px 0px 120px 0px', threshold: 0.01 });
+  cards.forEach(c => io.observe(c));
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   انیمیشن‌های بخش‌های قبلی
+   ═══════════════════════════════════════════════════════════ */
+
+/* میدان جریان قهرمان */
+(function initFlow(){
+  const canvas = $('#flow'); if (!canvas) return;
+  let ctx, W, H, parts = [], t = 0, raf = null, running = false;
+  function field(x, y, tm){
+    const s = 0.0016;
+    return Math.sin(x*s + tm*0.62)*1.55 + Math.cos(y*s*1.28 - tm*0.44)*1.55 +
+           Math.sin((x+y)*s*0.62 + tm*0.31)*1.15;
+  }
+  function spawn(){
+    const c = Math.round(clamp(W*H / (isMobile || lowEnd ? 32000 : 13500), 40, isMobile ? 140 : 320));
+    parts = [];
+    for (let i = 0; i < c; i++)
+      parts.push({ x: Math.random()*W, y: Math.random()*H,
+                   cool: Math.random() < 0.24, a: 0.045 + Math.random()*0.115 });
+  }
+  function resize(){
+    const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h;
+    ctx.fillStyle = '#07070c'; ctx.fillRect(0, 0, W, H); spawn();
+  }
+  function step(fade){
+    ctx.fillStyle = 'rgba(7,7,12,' + fade + ')';
+    ctx.fillRect(0, 0, W, H);
+    ctx.lineWidth = 1; ctx.lineCap = 'round';
+    for (const p of parts){
+      const ang = field(p.x, p.y, t);
+      const px = p.x, py = p.y;
+      p.x += Math.cos(ang)*1.35;
+      p.y += Math.sin(ang)*1.35;
+      if (p.x < -12 || p.x > W+12 || p.y < -12 || p.y > H+12){
+        p.x = Math.random()*W; p.y = Math.random()*H; continue;
+      }
+      ctx.beginPath();
+      ctx.moveTo(px, py); ctx.lineTo(p.x, p.y);
+      ctx.strokeStyle = p.cool
+        ? 'rgba(126,184,212,' + (p.a*0.55).toFixed(3) + ')'
+        : 'rgba(217,164,65,' + p.a.toFixed(3) + ')';
+      ctx.stroke();
+    }
+  }
+  function frame(){ step(0.055); t += 0.0034; raf = requestAnimationFrame(frame); }
+  resize();
+  if (REDUCED){ for (let i = 0; i < 50; i++){ step(0.06); t += 0.004; } return; }
+  function start(){ if (running) return; running = true; raf = requestAnimationFrame(frame); }
+  function stop(){ running = false; if (raf) cancelAnimationFrame(raf); raf = null; }
+  let vis = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting && !vis){ vis = true; start(); }
+      else if (!e.isIntersecting && vis){ vis = false; stop(); }
+    });
+  }, { threshold: 0.02 }).observe(canvas);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else if (vis) start(); });
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { resize(); if (REDUCED) for (let i = 0; i < 50; i++){ step(0.06); t += 0.004; } }, 200); }, { passive: true });
+})();
+
+/* دختر ستاره‌ای */
+(function initWalker(){
+  const canvas = $('#walker'); if (!canvas) return;
+  let ctx, W, H, raf = null, running = false, t = 0, figX = 0;
+  let trail = [], sparks = [];
+  const POSES = [
+    { hipL: .5, kneeL: .1, hipR: -.5, kneeR: .4, sL: -.45, eL: .25, sR: .45, eR: .25, bob: 0 },
+    { hipL: -.1, kneeL: .15, hipR: .1, kneeR: .7, sL: .1, eL: .25, sR: -.1, eR: .25, bob: 1.5 },
+    { hipL: -.5, kneeL: .4, hipR: .5, kneeR: .1, sL: .45, eL: .25, sR: -.45, eR: .25, bob: 0 },
+    { hipL: .1, kneeL: .7, hipR: -.1, kneeR: .15, sL: -.1, eL: .25, sR: .1, eR: .25, bob: 1.5 }
+  ];
+  function poseAt(phase){
+    const idx = phase * 4;
+    const i1 = Math.floor(idx) % 4, i2 = (i1+1) % 4;
+    const k = idx - Math.floor(idx);
+    const kk = k*k*(3 - 2*k);
+    const out = {};
+    for (const key in POSES[i1]) out[key] = POSES[i1][key] + (POSES[i2][key] - POSES[i1][key]) * kk;
+    return out;
+  }
+  function figure(pose){
+    const hipY = -pose.bob, torso = 30;
+    const shY = hipY - torso, headY = shY - 7, headR = 5;
+    const upLeg = 16, loLeg = 16, upArm = 12, loArm = 12;
+    function leg(h, k){
+      const kx = Math.sin(h)*upLeg, ky = hipY + Math.cos(h)*upLeg;
+      const a = h - k;
+      return { kx, ky, fx: kx + Math.sin(a)*loLeg, fy: ky + Math.cos(a)*loLeg };
+    }
+    function arm(s, e){
+      const ex = Math.sin(s)*upArm, ey = shY + Math.cos(s)*upArm;
+      const a = s + e;
+      return { ex, ey, hx: ex + Math.sin(a)*loArm, hy: ey + Math.cos(a)*loArm };
+    }
+    const L = leg(pose.hipL, pose.kneeL), R = leg(pose.hipR, pose.kneeR);
+    const AL = arm(pose.sL, pose.eL), AR = arm(pose.sR, pose.eR);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    const gnd = ctx.createRadialGradient(0, hipY + 28, 2, 0, hipY + 28, 36);
+    gnd.addColorStop(0, 'rgba(217,164,65,.14)');
+    gnd.addColorStop(1, 'rgba(217,164,65,0)');
+    ctx.fillStyle = gnd;
+    ctx.fillRect(-40, hipY + 6, 80, 40);
+    ctx.strokeStyle = 'rgba(217,164,65,.42)'; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.moveTo(0, hipY); ctx.lineTo(R.kx, R.ky); ctx.lineTo(R.fx, R.fy); ctx.stroke();
+    ctx.strokeStyle = 'rgba(240,198,116,.92)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, hipY); ctx.lineTo(L.kx, L.ky); ctx.lineTo(L.fx, L.fy); ctx.stroke();
+    ctx.strokeStyle = 'rgba(217,164,65,.42)'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(0, shY); ctx.lineTo(AR.ex, AR.ey); ctx.lineTo(AR.hx, AR.hy); ctx.stroke();
+    ctx.strokeStyle = 'rgba(240,198,116,.92)'; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.moveTo(0, shY); ctx.lineTo(AL.ex, AL.ey); ctx.lineTo(AL.hx, AL.hy); ctx.stroke();
+    ctx.strokeStyle = 'rgba(244,239,229,.7)'; ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.moveTo(0, hipY); ctx.lineTo(0, shY); ctx.stroke();
+    const hg = ctx.createRadialGradient(0, headY, 0, 0, headY, headR*3.2);
+    hg.addColorStop(0, 'rgba(240,198,116,.55)');
+    hg.addColorStop(.4, 'rgba(240,198,116,.18)');
+    hg.addColorStop(1, 'rgba(240,198,116,0)');
+    ctx.beginPath(); ctx.arc(0, headY, headR*3.2, 0, 7); ctx.fillStyle = hg; ctx.fill();
+    ctx.beginPath(); ctx.arc(0, headY, headR, 0, 7);
+    ctx.fillStyle = 'rgba(255,240,205,.95)'; ctx.fill();
+  }
+  function resize(){
+    const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h;
+    if (figX === 0) figX = W + 40;
+  }
+  function frame(){
+    ctx.clearRect(0, 0, W, H);
+    t += 0.03; if (t > Math.PI*2) t -= Math.PI*2;
+    figX -= isMobile ? 0.32 : 0.42;
+    if (figX < -60){ figX = W + 60; trail.length = 0; sparks.length = 0; }
+    const gy = H * 0.86;
+    const sc = Math.min(H / 110, isMobile ? 1.05 : 1.35);
+    trail.push({ x: figX, y: gy, life: 1 });
+    if (trail.length > 60) trail.shift();
+    for (const p of trail){
+      p.life -= 0.016; if (p.life <= 0) continue;
+      ctx.beginPath();
+      ctx.arc(p.x + (Math.random()-.5)*3, p.y - 1, 1.1*p.life, 0, 7);
+      ctx.fillStyle = 'rgba(217,164,65,' + (0.2*p.life).toFixed(3) + ')';
+      ctx.fill();
+    }
+    if (Math.random() < 0.4 && sparks.length < 30){
+      sparks.push({ x: figX + (Math.random()-.5)*30, y: gy - Math.random()*55,
+                    life: 1, vx: (Math.random()-.5)*0.3, vy: -0.15 - Math.random()*0.25 });
+    }
+    for (let i = sparks.length-1; i >= 0; i--){
+      const sp = sparks[i];
+      sp.x += sp.vx; sp.y += sp.vy; sp.life -= 0.012;
+      if (sp.life <= 0){ sparks.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(sp.x, sp.y, 0.9*sp.life, 0, 7);
+      ctx.fillStyle = 'rgba(240,198,116,' + (0.5*sp.life).toFixed(3) + ')';
+      ctx.fill();
+    }
+    const pose = poseAt(t / (Math.PI*2));
+    ctx.save();
+    ctx.translate(figX, gy); ctx.scale(sc, sc); ctx.scale(-1, 1);
+    figure(pose); ctx.restore();
+    raf = requestAnimationFrame(frame);
+  }
+  resize();
+  if (REDUCED){
+    ctx.save(); ctx.translate(W*0.6, H*0.86); ctx.scale(1.2, 1.2); ctx.scale(-1, 1);
+    figure(poseAt(0.1)); ctx.restore(); return;
+  }
+  function start(){ if (running) return; running = true; raf = requestAnimationFrame(frame); }
+  function stop(){ running = false; if (raf) cancelAnimationFrame(raf); raf = null; }
+  let vis = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting && !vis){ vis = true; start(); }
+      else if (!e.isIntersecting && vis){ vis = false; stop(); }
+    });
+  }, { threshold: 0.02 }).observe(canvas);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else if (vis) start(); });
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(resize, 200); }, { passive: true });
+})();
+
+/* مارپیچ طلایی */
+const spiralCtrl = (function(){
+  const svg = $('#spiralSvg'); if (!svg) return null;
+  const PHI = (1+Math.sqrt(5))/2, N = 13;
+  const DIRS = ['right','bottom','left','top'], PAD = 0.045;
+  svg.setAttribute('viewBox', (-PAD)+' '+(-PAD)+' '+(PHI+PAD*2)+' '+(1+PAD*2));
+  let rect = { x: 0, y: 0, w: PHI, h: 1 };
+  const squares = [];
+  for (let i = 0; i < N; i++){
+    const dir = DIRS[i%4];
+    const s = Math.min(rect.w, rect.h);
+    let sq;
+    if (dir === 'right'){ sq = { x: rect.x+rect.w-s, y: rect.y, s, dir }; rect = { x: rect.x, y: rect.y, w: rect.w-s, h: rect.h }; }
+    else if (dir === 'bottom'){ sq = { x: rect.x, y: rect.y+rect.h-s, s, dir }; rect = { x: rect.x, y: rect.y, w: rect.w, h: rect.h-s }; }
+    else if (dir === 'left'){ sq = { x: rect.x, y: rect.y, s, dir }; rect = { x: rect.x+s, y: rect.y, w: rect.w-s, h: rect.h }; }
+    else { sq = { x: rect.x, y: rect.y, s, dir }; rect = { x: rect.x, y: rect.y+s, w: rect.w, h: rect.h-s }; }
+    squares.push(sq);
+  }
+  function centerOf(sq){
+    switch (sq.dir){
+      case 'right': return [sq.x, sq.y];
+      case 'bottom': return [sq.x+sq.s, sq.y];
+      case 'left': return [sq.x+sq.s, sq.y+sq.s];
+      default: return [sq.x, sq.y+sq.s];
+    }
+  }
+  const g = svgEl('g');
+  squares.forEach(function(sq){
+    const r = svgEl('rect', { x: sq.x, y: sq.y, width: sq.s, height: sq.s, 'class': 'spiral-sq' });
+    g.appendChild(r); sq.el = r;
+  });
+  svg.appendChild(g);
+  let d = '';
+  squares.forEach(function(sq, i){
+    const c = centerOf(sq), r = sq.s;
+    const a0 = i*Math.PI/2, a1 = a0 + Math.PI/2;
+    const x0 = c[0] + r*Math.cos(a0), y0 = c[1] + r*Math.sin(a0);
+    const x1 = c[0] + r*Math.cos(a1), y1 = c[1] + r*Math.sin(a1);
+    if (i === 0) d += 'M ' + x0.toFixed(5) + ' ' + y0.toFixed(5) + ' ';
+    d += 'A ' + r.toFixed(5) + ' ' + r.toFixed(5) + ' 0 0 1 ' + x1.toFixed(5) + ' ' + y1.toFixed(5) + ' ';
+  });
+  const path = svgEl('path', { d, 'class': 'spiral-path' });
+  svg.appendChild(path);
+  let len = 0; try { len = path.getTotalLength(); } catch(e){}
+  if (len > 0){ path.style.strokeDasharray = len; path.style.strokeDashoffset = len; }
+  g.setAttribute('transform', 'translate(' + PHI + ',0) scale(-1,1)');
+  path.setAttribute('transform', 'translate(' + PHI + ',0) scale(-1,1)');
+  return { squares, path, len, N };
+})();
+
+/* فیبوناچی + همگرایی */
+(function(){
+  const wrap = $('#fibSeq'); if (!wrap) return;
+  const nums = [1,1,2,3,5,8,13,21,34,55,89,144,233];
+  const spans = nums.map(function(n){
+    const s = document.createElement('span'); s.textContent = n; wrap.appendChild(s); return s;
+  });
+  let lit = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting || lit) return; lit = true;
+      spans.forEach(function(s, i){ setTimeout(() => s.classList.add('on'), i*65); });
+    });
+  }, { threshold: 0.3 }).observe(wrap);
+
+  const svg = $('#convergeSvg'); if (!svg) return;
+  const pairs = [[3,2],[5,3],[8,5],[13,8],[21,13],[34,21],[55,34],[89,55]];
+  const PHI = (1+Math.sqrt(5))/2;
+  const LO = 1.485, HI = 1.70;
+  const X0 = 6, X1 = 94, BASE = 20;
+  const mapX = v => X0 + (v-LO)/(HI-LO)*(X1-X0);
+  svg.appendChild(svgEl('line', { x1: X0, y1: BASE, x2: X1, y2: BASE, 'class': 'cv-axis' }));
+  [1.5, 1.55, 1.6, 1.65].forEach(function(v){
+    const x = mapX(v);
+    svg.appendChild(svgEl('line', { x1: x, y1: BASE, x2: x, y2: BASE+2.2, 'class': 'cv-axis' }));
+    const t = svgEl('text', { x, y: BASE+7.6, 'text-anchor': 'middle', 'class': 'cv-tick' });
+    t.textContent = v.toFixed(2); svg.appendChild(t);
+  });
+  const phiX = mapX(PHI);
+  const phiLine = svgEl('line', { x1: phiX, y1: 4, x2: phiX, y2: BASE+2.5, 'class': 'cv-line' });
+  svg.appendChild(phiLine);
+  const phiLabel = svgEl('text', { x: phiX, y: 2.6, 'text-anchor': 'middle', 'class': 'cv-label' });
+  phiLabel.textContent = 'φ = 1.61803'; svg.appendChild(phiLabel);
+  const dots = pairs.map(function(p, i){
+    const v = p[0]/p[1];
+    const x = mapX(v);
+    const dot = svgEl('circle', { cx: x, cy: BASE-6.5, r: 1.5, 'class': 'cv-dot' });
+    dot.style.setProperty('--d', (i*0.09+0.2)+'s');
+    svg.appendChild(dot);
+    const t = svgEl('text', { x, y: BASE-10.5, 'text-anchor': 'middle', 'class': 'cv-tick' });
+    t.textContent = p[0] + '/' + p[1]; t.style.opacity = '0';
+    svg.appendChild(t);
+    return { dot, label: t };
+  });
+  let shown = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting || shown) return; shown = true;
+      phiLine.classList.add('on'); phiLabel.classList.add('on');
+      dots.forEach(function(d, i){
+        d.dot.classList.add('on');
+        setTimeout(() => { d.label.style.opacity = '.55'; }, 420 + i*90);
+      });
+    });
+  }, { threshold: 0.35 }).observe(svg);
+})();
+
+/* گل فیلوتاکسی */
+(function(){
+  const canvas = $('#flower'); if (!canvas) return;
+  let ctx, W, H, raf = null, running = false, prog = 0;
+  const GA = Math.PI * (3 - Math.sqrt(5));
+  const N = isMobile || lowEnd ? 420 : 700;
+  function resize(){ const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h; }
+  function draw(p){
+    ctx.clearRect(0, 0, W, H);
+    const cx = W/2, cy = H/2, maxR = Math.min(W, H) * 0.46;
+    const count = Math.floor(N * p);
+    for (let i = 0; i < count; i++){
+      const r = Math.sqrt(i/N) * maxR;
+      const th = i * GA;
+      const x = cx + Math.cos(th)*r, y = cy + Math.sin(th)*r;
+      const size = 1 + (i/N)*3.2;
+      const hue = 36 + (i/N)*16;
+      const lum = 55 + (1 - i/N)*22;
+      ctx.beginPath(); ctx.arc(x, y, size*2.6, 0, 7);
+      ctx.fillStyle = 'hsla(' + hue + ',62%,' + lum + '%,.055)'; ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, size, 0, 7);
+      ctx.fillStyle = 'hsla(' + hue + ',66%,' + lum + '%,' + (0.7 + (i/N)*0.28).toFixed(3) + ')';
+      ctx.fill();
+    }
+    const core = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR*0.14);
+    core.addColorStop(0, 'rgba(255,240,205,.5)');
+    core.addColorStop(1, 'rgba(255,240,205,0)');
+    ctx.beginPath(); ctx.arc(cx, cy, maxR*0.14, 0, 7);
+    ctx.fillStyle = core; ctx.fill();
+  }
+  function frame(){
+    prog += 0.006; if (prog >= 1) prog = 1;
+    draw(prog);
+    if (prog < 1) raf = requestAnimationFrame(frame); else raf = null;
+  }
+  resize();
+  if (REDUCED){ draw(1); return; }
+  let played = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting && !played){ played = true; raf = requestAnimationFrame(frame); }
+    });
+  }, { threshold: 0.2 }).observe(canvas);
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { resize(); draw(prog); }, 200); }, { passive: true });
+})();
+
+/* موج آونگی */
+(function(){
+  const canvas = $('#pendulum'); if (!canvas) return;
+  let ctx, W, H, raf = null, running = false, time = 0;
+  const N = 15;
+  function resize(){ const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h; }
+  function frame(){
+    ctx.clearRect(0, 0, W, H);
+    time += 0.014;
+    const pivotY = H * 0.07;
+    const maxLen = H * 0.74, minLen = H * 0.30;
+    const gap = W / (N + 1);
+    const amp = isMobile ? 0.28 : 0.32;
+    for (let i = 0; i < N; i++){
+      const T = 3.2 + i * 0.095;
+      const ph = (time / T) * Math.PI * 2;
+      const ang = Math.sin(ph) * amp;
+      const tt = i / (N - 1);
+      const len = maxLen + (minLen - maxLen) * tt;
+      const x0 = gap * (i + 1), y0 = pivotY;
+      const x1 = x0 + Math.sin(ang) * len;
+      const y1 = y0 + Math.cos(ang) * len;
+      const hue = 36 + tt * 14, lum = 52 + tt * 12;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+      ctx.strokeStyle = 'rgba(244,239,229,.1)'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.beginPath(); ctx.arc(x0, y0, 1.2, 0, 7);
+      ctx.fillStyle = 'rgba(244,239,229,.22)'; ctx.fill();
+      const gl = ctx.createRadialGradient(x1, y1, 0, x1, y1, 14);
+      gl.addColorStop(0, 'hsla(' + hue + ',70%,' + lum + '%,.34)');
+      gl.addColorStop(1, 'hsla(' + hue + ',70%,' + lum + '%,0)');
+      ctx.beginPath(); ctx.arc(x1, y1, 14, 0, 7); ctx.fillStyle = gl; ctx.fill();
+      ctx.beginPath(); ctx.arc(x1, y1, isMobile ? 4.5 : 5.5, 0, 7);
+      ctx.fillStyle = 'hsla(' + hue + ',68%,' + lum + '%,.95)'; ctx.fill();
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  resize();
+  if (REDUCED){ time = 0.3; frame(); if (raf) cancelAnimationFrame(raf); raf = null; return; }
+  function start(){ if (running) return; running = true; raf = requestAnimationFrame(frame); }
+  function stop(){ running = false; if (raf) cancelAnimationFrame(raf); raf = null; }
+  let vis = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting && !vis){ vis = true; start(); }
+      else if (!e.isIntersecting && vis){ vis = false; stop(); }
+    });
+  }, { threshold: 0.05 }).observe(canvas);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else if (vis) start(); });
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(resize, 200); }, { passive: true });
+})();
+
+/* درخت فراکتالی */
+(function(){
+  const canvas = $('#tree'); if (!canvas) return;
+  let ctx, W, H, raf = null, played = false, lastProg = 0;
+  const MD = isMobile || lowEnd ? 8 : 9;
+  function resize(){ const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h; }
+  function draw(prog){
+    ctx.clearRect(0, 0, W, H);
+    const baseLen = H * 0.27;
+    (function branch(x, y, len, ang, depth){
+      if (depth > MD) return;
+      const start = (depth - 1) / MD;
+      const local = (prog - start) * MD;
+      if (local <= 0) return;
+      const eased = 1 - Math.pow(1 - Math.min(local, 1), 3);
+      const L = len * eased;
+      const x2 = x + Math.cos(ang)*L, y2 = y + Math.sin(ang)*L;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x2, y2);
+      ctx.lineWidth = Math.max(0.45, (MD - depth + 1)*0.52);
+      ctx.strokeStyle = 'hsla(' + (36 + depth*2.4) + ',62%,' + (56 + depth*2.2) + '%,' + (0.86 - depth*0.065).toFixed(3) + ')';
+      ctx.lineCap = 'round'; ctx.stroke();
+      branch(x2, y2, len*0.735, ang - 0.425, depth + 1);
+      branch(x2, y2, len*0.735, ang + 0.425, depth + 1);
+    })(W/2, H*0.94, baseLen, -Math.PI/2, 1);
+  }
+  function play(){
+    if (played) return; played = true;
+    if (REDUCED){ lastProg = 1; draw(1); return; }
+    const t0 = performance.now(), DUR = 4200;
+    (function step(now){
+      const p = clamp((now - t0)/DUR, 0, 1);
+      lastProg = p; draw(p);
+      if (p < 1) raf = requestAnimationFrame(step); else raf = null;
+    })(t0);
+  }
+  resize();
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ play(); } });
+  }, { threshold: 0.25 }).observe(canvas);
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { resize(); if (played) draw(lastProg); }, 200); }, { passive: true });
+})();
+
+/* سرخس بارنسلی */
+(function(){
+  const canvas = $('#fern'); if (!canvas) return;
+  let ctx, W, H, raf = null, played = false, pts = [];
+  const T = [
+    { a: 0, b: 0, c: 0, d: 0.16, e: 0, f: 0, p: 0.01 },
+    { a: 0.85, b: 0.04, c: -0.04, d: 0.85, e: 0, f: 1.6, p: 0.85 },
+    { a: 0.20, b: -0.26, c: 0.23, d: 0.22, e: 0, f: 1.6, p: 0.07 },
+    { a: -0.15, b: 0.28, c: 0.26, d: 0.24, e: 0, f: 0.44, p: 0.07 }
+  ];
+  let seed = 98765;
+  function rand(){ seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }
+  function pick(){ const r = rand(); let acc = 0;
+    for (const t of T){ acc += t.p; if (r <= acc) return t; }
+    return T[3];
+  }
+  function resize(){ const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h; }
+  function compute(count){
+    pts = []; let x = 0, y = 0;
+    for (let i = 0; i < 40; i++){ const t = pick(); const nx = t.a*x + t.b*y + t.e, ny = t.c*x + t.d*y + t.f; x = nx; y = ny; }
+    for (let i = 0; i < count; i++){
+      const t = pick();
+      const nx = t.a*x + t.b*y + t.e, ny = t.c*x + t.d*y + t.f;
+      x = nx; y = ny; pts.push({ x, y });
+    }
+  }
+  function draw(p){
+    ctx.clearRect(0, 0, W, H);
+    const show = Math.floor(pts.length * p);
+    const pad = 12;
+    const sx = (W - pad*2) / 6, sy = (H - pad*2) / 10;
+    const sc = Math.min(sx, sy);
+    const cx = W/2, bt = H - pad;
+    for (let i = 0; i < show; i++){
+      const pt = pts[i];
+      const px = cx + pt.x * sc, py = bt - pt.y * sc;
+      const t = i / pts.length;
+      ctx.fillStyle = 'hsla(' + (130 + t*30) + ',45%,' + (42 + t*22) + '%,0.72)';
+      ctx.beginPath(); ctx.arc(px, py, 0.7, 0, 7); ctx.fill();
+    }
+  }
+  resize();
+  if (REDUCED){ compute(8000); draw(1); played = true; return; }
+  function play(){
+    if (played) return; played = true;
+    compute(isMobile || lowEnd ? 9000 : 18000);
+    const t0 = performance.now(), DUR = 2600;
+    (function step(now){
+      const p = clamp((now - t0)/DUR, 0, 1); draw(p);
+      if (p < 1) raf = requestAnimationFrame(step); else raf = null;
+    })(t0);
+  }
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) play(); });
+  }, { threshold: 0.22 }).observe(canvas);
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { resize(); if (played) draw(1); }, 200); }, { passive: true });
+})();
+
+/* هارمونوگراف */
+(function(){
+  const canvas = $('#harm'); if (!canvas) return;
+  let ctx, W, H, S, CX, CY, raf = null, running = false, hp = null, ht = 0, phase = 'draw', holdT = 0;
+  function newParams(){
+    const r = () => Math.random() * 6.283;
+    const d = () => 0.0011 + Math.random() * 0.0010;
+    return {
+      x: [ { f: 2 + (Math.random()-.5)*0.03, p: r(), a: 1, d: d() },
+           { f: 3 + (Math.random()-.5)*0.03, p: r(), a: 0.62, d: d() } ],
+      y: [ { f: 2 + (Math.random()-.5)*0.03, p: r(), a: 1, d: d() },
+           { f: 3 + (Math.random()-.5)*0.03, p: r(), a: 0.62, d: d() } ]
+    };
+  }
+  function point(p, t){
+    let x = 0, y = 0;
+    for (const c of p.x) x += c.a * Math.sin(c.f*t + c.p) * Math.exp(-c.d*t);
+    for (const c of p.y) y += c.a * Math.sin(c.f*t + c.p) * Math.exp(-c.d*t);
+    return [x, y];
+  }
+  function resize(){
+    const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h;
+    S = Math.min(W, H) * 0.30; CX = W/2; CY = H/2;
+  }
+  const DT = isMobile || lowEnd ? 0.02 : 0.014;
+  const STEPS = isMobile || lowEnd ? 12 : 18;
+  const MAX_T = 250;
+  function frame(){
+    if (phase === 'draw'){
+      for (let i = 0; i < STEPS; i++){
+        const a = point(hp, ht);
+        ht += DT;
+        const b = point(hp, ht);
+        const ax = CX + a[0]*S, ay = CY + a[1]*S;
+        const bx = CX + b[0]*S, by = CY + b[1]*S;
+        const dx = bx-ax, dy = by-ay;
+        if (dx*dx + dy*dy < 900){
+          ctx.beginPath();
+          ctx.moveTo(ax, ay); ctx.lineTo(bx, by);
+          const hue = 34 + Math.sin(ht*0.045)*9;
+          ctx.strokeStyle = 'hsla(' + hue.toFixed(1) + ',64%,58%,0.52)';
+          ctx.lineWidth = 1; ctx.stroke();
+        }
+        if (ht > MAX_T){ phase = 'hold'; break; }
+      }
+      if (ht >= MAX_T) phase = 'hold';
+    } else {
+      holdT++;
+      if (holdT > 90){
+        ctx.clearRect(0, 0, W, H);
+        hp = newParams(); ht = 0; phase = 'draw'; holdT = 0;
+      }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  resize(); hp = newParams();
+  if (REDUCED){
+    let t = 0, prev = point(hp, 0);
+    ctx.lineWidth = 1; ctx.strokeStyle = 'hsla(38,64%,58%,0.42)';
+    ctx.beginPath(); ctx.moveTo(CX + prev[0]*S, CY + prev[1]*S);
+    while (t < MAX_T){ t += 0.05; const c = point(hp, t); ctx.lineTo(CX + c[0]*S, CY + c[1]*S); }
+    ctx.stroke(); return;
+  }
+  function start(){ if (running) return; running = true; raf = requestAnimationFrame(frame); }
+  function stop(){ running = false; if (raf) cancelAnimationFrame(raf); raf = null; }
+  let vis = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting && !vis){ vis = true; start(); }
+      else if (!e.isIntersecting && vis){ vis = false; stop(); }
+    });
+  }, { threshold: 0.05 }).observe(canvas);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else if (vis) start(); });
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(resize, 200); }, { passive: true });
+})();
+
+/* تسراکت */
+(function(){
+  const canvas = $('#tesseract'); if (!canvas) return;
+  let ctx, W, H, raf = null, running = false, t = 0;
+  const V = [];
+  for (let i = 0; i < 16; i++) V.push([(i&1)?1:-1, (i&2)?1:-1, (i&4)?1:-1, (i&8)?1:-1]);
+  const E = [];
+  for (let i = 0; i < 16; i++)
+    for (let j = i+1; j < 16; j++){
+      let d = 0;
+      for (let k = 0; k < 4; k++) if (V[i][k] !== V[j][k]) d++;
+      if (d === 1) E.push([i, j]);
+    }
+  function resize(){ const s = makeCanvas(canvas); ctx = s.ctx; W = s.w; H = s.h; }
+  function rot(p, a, i, j){
+    const c = Math.cos(a), s = Math.sin(a);
+    const pi = p[i], pj = p[j];
+    p[i] = pi*c - pj*s; p[j] = pi*s + pj*c;
+  }
+  function frame(){
+    ctx.clearRect(0, 0, W, H);
+    t += 0.006;
+    const size = Math.min(W, H) * 0.28;
+    const cx = W/2, cy = H/2;
+    const rotated = V.map(v => v.slice());
+    for (const v of rotated){
+      rot(v, t*0.7, 0, 3); rot(v, t*0.5, 1, 3);
+      rot(v, t*0.35, 0, 1); rot(v, t*0.4, 2, 3);
+    }
+    const proj3 = rotated.map(v => {
+      const d = 3, k = d / (d - v[3]);
+      return [v[0]*k, v[1]*k, v[2]*k];
+    });
+    const flat = proj3.map(p => {
+      const d = 4, k = d / (d - p[2]);
+      return [cx + p[0]*k*size, cy + p[1]*k*size, p[2]];
+    });
+    E.forEach(function(e){
+      const a = flat[e[0]], b = flat[e[1]];
+      const depth = (a[2]+b[2])/2;
+      const alpha = 0.18 + (1 - Math.min(1, Math.abs(depth)*0.5))*0.55;
+      ctx.beginPath();
+      ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      ctx.strokeStyle = 'rgba(126,184,212,' + alpha.toFixed(3) + ')';
+      ctx.lineWidth = depth > 0 ? 1.4 : 0.9;
+      ctx.stroke();
+    });
+    flat.forEach(p => {
+      const depth = p[2];
+      const r = 1.8 + (1 - Math.min(1, Math.abs(depth)*0.5))*1.6;
+      ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 7);
+      ctx.fillStyle = 'rgba(217,164,65,' + (0.55 + (1 - Math.min(1, Math.abs(depth)*0.5))*0.35).toFixed(3) + ')';
+      ctx.fill();
+    });
+    raf = requestAnimationFrame(frame);
+  }
+  resize();
+  if (REDUCED){ t = 1.2; frame(); if (raf) cancelAnimationFrame(raf); raf = null; return; }
+  function start(){ if (running) return; running = true; raf = requestAnimationFrame(frame); }
+  function stop(){ running = false; if (raf) cancelAnimationFrame(raf); raf = null; }
+  let vis = false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting && !vis){ vis = true; start(); }
+      else if (!e.isIntersecting && vis){ vis = false; stop(); }
+    });
+  }, { threshold: 0.05 }).observe(canvas);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else if (vis) start(); });
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(resize, 200); }, { passive: true });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   اسکرول حلقه
+   ═══════════════════════════════════════════════════════════ */
+const spiralWrap = $('.spiral-wrap');
+function updateSpiral(){
+  if (!spiralCtrl || !spiralWrap) return;
+  const rect = spiralWrap.getBoundingClientRect();
+  const vh = innerHeight;
+  const start = vh * 0.88, end = vh * 0.30;
+  const total = rect.height + start - end;
+  const p = clamp((start - rect.top) / total, 0, 1);
+  if (spiralCtrl.len > 0) spiralCtrl.path.style.strokeDashoffset = String(spiralCtrl.len * (1 - p));
+  const lit = Math.floor(p * spiralCtrl.N * 1.05);
+  spiralCtrl.squares.forEach((sq, i) => sq.el.classList.toggle('lit', i < lit));
+}
+let tick = false;
+function onFrame(){ onScroll(); updateSpiral(); tick = false; }
+function reqTick(){ if (!tick){ tick = true; requestAnimationFrame(onFrame); } }
+addEventListener('scroll', reqTick, { passive: true });
+addEventListener('resize', reqTick, { passive: true });
+
+/* راهنمای اسکرول */
+const hint = $('#scrollHint');
+if (hint) hint.addEventListener('click', () => {
+  const t = $('#intro');
+  if (t) t.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
+});
+
+/* اجرا */
+onScroll(); updateSpiral();
+setTimeout(() => { onScroll(); updateSpiral(); }, 280);
+if (document.fonts && document.fonts.ready){
+  document.fonts.ready.then(() => { onScroll(); updateSpiral(); });
+}
+
+})();
+</script>
+</body>
+  </html>
